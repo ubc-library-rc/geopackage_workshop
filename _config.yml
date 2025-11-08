@@ -1,8 +1,10 @@
 title: BC Assessment data and spatial analysis using geopackages
 remote_theme: ubc-library-rc/rc-theme
+#remote_theme: carlosperate/jekyll-theme-rtd
+#remote_theme: daattali/beautiful-jekyll
 color_scheme: rc
 github_repo_url: "https://github.com/ubc-library-rc/geopackage_workshop/" 
-
+source: content
 # license information for workshop content
 license_name: "Creative Commons Attribution 4.0 International License"
 license_url: "http://creativecommons.org/licenses/by/4.0/"
