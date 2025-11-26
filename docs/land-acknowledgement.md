@@ -1,11 +1,13 @@
 ---
 layout: default
-nav_order: 5
+nav_order: 1.1
 title: Land acknowledgement 
 ---
 # Land acknowledgement
 
-Before beginning the workshop, we'd like to acknowledge the Indigenous lands where we are located. The UBC Vancouver campus is located on the traditional, ancestral, and unceded territory of the xʷməθkʷəy̓əm (Musqueam), səlilwətaɬ (Tsleil-Waututh), and Skwxwú7mesh-ulh Temíx̱w (Squamish) peoples.
+We'd like to acknowledge the Indigenous lands where we are located. The UBC Vancouver campus is located on the traditional, ancestral, and unceded territory of the xʷməθkʷəy̓əm (Musqueam), səlilwətaɬ (Tsleil-Waututh), and Skwxwú7mesh-ulh Temíx̱w (Squamish) peoples.
+
+We encourage everyone to understand and investigate the history of any area where you live and/or are researching, no matter where that may be.
 
 ![map from Native Land Digital](assets/images/native_land_map.png)
 

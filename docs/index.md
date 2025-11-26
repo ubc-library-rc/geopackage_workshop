@@ -4,26 +4,30 @@ title: Introduction
 nav_order: 0
 ---
 
-## Introduction 
+# Geopackages, or GIS without GIS
 
-This is the landing page when you go to your workshop page. The main landing page should be called **index.md**, otherwise it won't work as a landing page. It's case sensitive. The title of the page can be whatever you want, but _Introduction_ usually works. Obviously, you would replace this text with real content.
+![SQLite screenshot](assets/images/mac_db_browser_intro.png "Do not be alarmed")
 
----
 
-## Learning objectives
+This workshop will provide an introduction to using Geopackage spatial databases _without_ using specialized geographic information systems software. The course is aimed primarily at users of [BC Assessment data](https://abacus.library.ubc.ca/dataverse/abacus/?q=%22bc+assessment%22), which is restricted to authorized users at the University of British Columbia, Simon Fraser University, the University of Victoria and the University of Northern British Columbia. However, the principles will apply to *any* Geopackage (and sometimes Spatialite) database.
 
-At the end of this workshop, you will be able to:
+Do not be alarmed at the screenshot.
 
-1. Add bullet points 
-2. Add more bullet points
-3. Three
+The only software you will need is an interface to [SQLite](https://sqlite.org). This workshop will use [DB Browser for SQLite](https://sqlitebrowser.org), but any SQLite software will do, even the SQLite terminal interface.
 
-## Schedule
+It also presupposes *some* knowledge of SQL (structured query language), although if you don't know any it may still be of use to you.
 
-| 0:00 | Welcome and using Zoom|
-| 0:05 | Introduction |  
-| 0:15 |  |
-| 0:30 |  |   
-| 0:45 |  |
-| 1:00 | Wrap-up and Discussion |
+#### Prerequisites
+ 
+* A basic understanding of SQL databases
+* A functioning SQLite environment. This tutorial uses DB Browser for SQLIte. Setup instructions are available [here](db_browser_setup.html#installing-sqlite-3-with-geopackagespatialite-support)
+
+#### Objectives
+
+By the end of the workshop you should have an understanding of:
+
+* What a geopackage is and what it does
+* How to perform basic queries
+* How to perform some basic geographic operations
+* How to export your data, either as a data table or in a spatial format.
 

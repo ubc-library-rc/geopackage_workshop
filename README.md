@@ -1,14 +1,28 @@
-# Name of workshop
+# Geopackages, or GIS without GIS 
 ### UBC Library Research Commons
-### Other authors etc.
+### Paul Lesack, UBC Library Research Commons
+### Jeremy Buhler, UBC Library Research Commons
 
-Description: Add a short workshop description here (on one line starting with "Description:"). If the workshop is featured, this description will appear on the featured workshops web page.
+Description: This workshop will provide an introduction to using Geopackage spatial databases _without_ using specialized geographic information systems software. The course is aimed primarily at users of [BC Assessment data](https://abacus.library.ubc.ca/dataverse/abacus/?q=%22bc+assessment%22), which is restricted to authorized users at the University of British Columbia, Simon Fraser University, the University of Victoria and the University of Northern British Columbia.
 
-Basic README information goes here. Generally this just describes what the workshop *is* and provides a link to the Github pages version of the workshop as below. This text **does not** appear in the workshop site itself.
+The only only software you will need is an interface to [SQLite](sqlite.org). This workshop will use [DB Browser for SQLite](sqlitebrowser.org), but any SQLite software will do.
 
-All of the workshop content is isolated in the `docs` directory.
+It also presupposes *some* knowledge of SQL (structured query language), although if you don't know any it may still be of use to you.
 
-Link to workshop: <https://ubc-library-rc.github.io/your_workshop_repository_name/>
+By the end of the workshop you should have an basic understanding of:
+
+* What a geopackage is and what it does
+* How to perform basic queries
+* How to perform some basic geographic operations
+* How to export your data, either as a data table or in a spatial format.
+
+Prerequisites:
+ 
+* A basic understanding of SQL databases
+* How to set environment variables in the system of your choosing (Windows, Mac, Linux)
+* An interface to SQLite 
+
+Link to workshop: <https://ubc-library-rc.github.io/geopackage_workshop/>
 
 
 [![CC-BY licence](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
