@@ -19,10 +19,12 @@ favicon_ico: assets/images/favicon.svg
 #RC colour scheme
 color_scheme: rc
 
+#This yaml overrides custom themes
+callouts_level: quiet
 callouts:
   important:
     title: Important
-    color: purple 
+    color: red
 
 #Edit this line to point to the correct location for your workshop
 github_repo_url: "https://github.com/ubc-library-rc/template/"
@@ -54,3 +56,4 @@ exclude:
   - reveal.js/css/theme/README.md
   - reveal.js/examples/markdown.md
   - reveal.js/README.md
+  - generic_content.yml

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Slide presentation
-nav_order: 20
+nav_order: 45
 ---
 # Linking to Reveal.js presentations 
 

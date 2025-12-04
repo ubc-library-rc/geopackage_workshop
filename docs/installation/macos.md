@@ -57,6 +57,14 @@ db_browser() {export SPATIALITE_SECURITY=relaxed;
                           unset SPATIALITE_SECURITY}
 ```
 
-This will allow you to run DB Browser normally if you, say, click on its icon, but if you start it from the command line with `db_browser`, you will be able to export.
+Alternately, if you want the capability of having more than one session open at a time, and you want all warning messages directed to a terminal, you can add this instead:
+
+```zsh
+db_browser() {export SPATIALITE_SECURITY=relaxed;
+               exec /Applications/DB\ Browser\ for\ SQLite.app/Contents/MacOS/DB\ Browser\ for\ SQLite $* 2>&1 &
+               unset SPATIALITE_SECURITY}
+```
+
+Using one of these options will allow you to run DB Browser "normally", ie, without export capability, if you, click on its icon, but if you start it from the command line with `db_browser`, you will be able to export.
 
 Alternately, you can just add `export SPATIALITE_SECURITY=relaxed` to your `~/.zshrc`, but be aware that this is not recommended.

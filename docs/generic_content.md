@@ -114,4 +114,3 @@ Use three (or more) dashes for horizontal lines
 <summary>This dropdown is open</summary>  
 This is the dropdown content. Same line break as above.
 </details>
-

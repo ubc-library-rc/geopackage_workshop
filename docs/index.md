@@ -2,17 +2,18 @@
 layout: default
 title: Introduction 
 nav_order: 0
+has_children: true
+has_toc: false
 ---
 
 # Geopackages, or GIS without GIS
 
 ![SQLite screenshot](assets/images/mac_db_browser_intro.png "Do not be alarmed")
 
+Before you do anything, [please take a minute to consider where you are](land-acknowledgement.html).
 
-This workshop will provide an introduction to using Geopackage spatial databases _without_ using specialized geographic information systems software. The course is aimed primarily at users of [BC Assessment data](https://abacus.library.ubc.ca/dataverse/abacus/?q=%22bc+assessment%22), which is restricted to authorized users at the University of British Columbia, Simon Fraser University, the University of Victoria and the University of Northern British Columbia. However, the principles will apply to *any* Geopackage (and sometimes Spatialite) database.
-
-Do not be alarmed at the screenshot.
-
+This workshop will provide an introduction to using Geopackage (and to some extent, Spatialite) spatial databases _without_ using specialized geographic information systems (GIS) software. This doesn't mean that it is a GIS replacement, but GIS software learning curves are steep, and may not be necessary depending on your needs.
+ 
 The only software you will need is an interface to [SQLite](https://sqlite.org). This workshop will use [DB Browser for SQLite](https://sqlitebrowser.org), but any SQLite software will do, even the SQLite terminal interface.
 
 It also presupposes *some* knowledge of SQL (structured query language), although if you don't know any it may still be of use to you.
@@ -24,7 +25,7 @@ It also presupposes *some* knowledge of SQL (structured query language), althoug
 
 #### Objectives
 
-By the end of the workshop you should have an understanding of:
+After completion you should have an understanding of:
 
 * What a geopackage is and what it does
 * How to perform basic queries
