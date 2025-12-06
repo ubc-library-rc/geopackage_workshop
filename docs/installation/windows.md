@@ -40,7 +40,9 @@ Optional: To set DB Browser to open GeoPackage files by default:
 Optional: relax the security when you run DB Browser.
 
 {: .important}
-If you want to export some kinds of data, such as GeoJSON files, you must set the `SPATIALITE_SECURITY` environment variable to `relaxed`. This will allow DB Browser to write to your system from within an SQL session. The functions that require this setting are noted in the Spatialite documentation 
+>If you want to export some kinds of data, such as GeoJSON files, you must set the `SPATIALITE_SECURITY` environment variable to `relaxed`. This will allow DB Browser to write to your system from within an SQL session. The functions that require this setting are noted in the Spatialite documentation 
+>
+>Note that both ArcGIS and QGIS support Well-Known Text (WKT) imports, so if your intention is to export to a GIS system you don't *have* to do this. But for pure GeoJSON exports and Shapefile Exports, you do.
 
 Environment variables are buried deep in the Windows operating system. There are many ways to navigate to the environment variables window but the fastest is:
 

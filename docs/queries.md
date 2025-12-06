@@ -60,7 +60,6 @@ WHERE
 distanceWithin(castAutoMagic(geom), transform(castAutoMagic(MakePoint(-123.131457045205, 49.2082220977993, 4326)),3005), 250);
 ```
 
-
 ## Slightly more advanced queries
 Most of the time you will not be entering point or polygons manually, you will need to be querying based on the properties of the data set itself.
 
