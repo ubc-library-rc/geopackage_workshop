@@ -55,7 +55,7 @@ If you wish to export a GeoJSON or Shapefile directly, you can also do this usin
 * The SPATIALITE_SECURITY environment variable must be set to 'relaxed'
 * Generally, exporting like this exports a whole *table*, not just a query. If you wish to export the results of a query, you must create a new table (with all that entails) and export that way. Also, it *cannot* be a temporary table — it must be a real one.
 * Tables can be created with the `CREATE TABLE AS SELECT` syntax.
-* Exporting this way inevitably runs to issues with geometry as both Spatialite and GeoPackage are supported, but the the two formats use different geometry types so be forewarned. You will need to *not* be in GeoPackage Mode, and you will need to convert the geometry to Spatialite Geometry with `castAutoMagic`, then use the `RecoverGeometryColumn` function.
+* Exporting this way inevitably runs to issues with geometry. While both Spatialite and GeoPackage are supported, the `Export` functions **only** work with Spatialite geometry, not GeoPackage, which is something omitted from the documentation. You will need to *not* be in GeoPackage Mode, and you will need to convert the geometry to Spatialite Geometry with `castAutoMagic`, then use the `RecoverGeometryColumn` function. Once you know this, it's not so bad. It's the finding out that's the hard part.
 
 ```sql
 /*
@@ -71,7 +71,7 @@ SELECT disableGpkgAmphibiousMode();
 DROP TABLE IF EXISTS secondary;
 DELETE FROM  geometry_columns WHERE f_table_name='secondary';
 CREATE TABLE secondary AS SELECT fid,civic_number, streetname, site_id, castAutoMagic(geom) as g2 from prop_parcel_polygons WHERE streetname LIKE 'DUNBAR%';
---Note that the JSON lat/long column was excluded because JSON inside a JSON is asking for trouble
+--Note that the JSON lat/long column in this particular datafile was excluded because JSON inside a JSON is asking for trouble.
 SELECT RecoverGeometryColumn('secondary', 'g2', 3005, 'POLYGON');
 SELECT ExportGeoJSON2('secondary', 'g2', '/tmp/dunbar.geojson', 8, 1, 0, 1, 'LOWER' );
 --ExportShp adds extensions automatically

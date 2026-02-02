@@ -6,9 +6,9 @@ nav_order: 10
 
 We will first start off by understanding how to use an already existing GeoPackage database. This is not a tutorial for the [DB Browser](https://sqlitebrowser.org) interface; it assumes you can use the interface for basic operations like entering SQL, etc. All of the functions are available via reasonably obvious buttons or through menus.
 
-*1*{: .circle .circle-blue} Open an existing geopackage database with File/Open; the images in this tutorial use a geopackage called `BCA_folios_20240412.gpkg`.
+*1*{: .circle .circle-blue} Open an existing geopackage database with File/Open; the images and examples in this tutorial use a geopackage called `property-parcel-polygons.gpkg`, which, if you have cloned the Github repository, is at `src/data`.
 
-*2*{: .circle .circle-blue}To ensure that your Spatialite extensions are working properly, switch to the **Excute SQL** tab, and run the following SQL:
+*2*{: .circle .circle-blue}To ensure that your Spatialite extensions are working properly, switch to the **Execute SQL** tab, and run the following SQL:
 
 ```sql
 SELECT spatialite_version() AS spatialite_version, HasGeoPackage() AS has_gpkg;
@@ -27,7 +27,7 @@ Ironically, you can't perform this step until you have a database open. It doesn
 *4*{: .circle .circle-blue}Spatialite Functions
 As mentioned in the [introduction](what_is_a_geopackage.html), technically GeoPackage is standard and Spatialite is used to read data from this standard. What this means, in practice, is that using the Spatialite adds an enormous variety of functions available through SQL that are not normally available using plain SQLite.
 
-These functions are called exactly the same way built-in functions are called.
+These functions are called exactly the same way built-in functions are called. SQL commands are not case-sensitive. You may see various capitalizations of functions, etc. While I try to be consistent, it's all typed by hand, and if it works I'm not going to stress because it's **select** and not **SELECT**. And neither should you. If you're using AI to generate your SQL for Spatialite, it will, at some point, be wrong, so your best option is to actually learn how it works.
 
 For example:
 
@@ -54,14 +54,15 @@ SELECT enableGpkgMode();
 --SELECT disableGpkgAmphibiousMode();
 ```
 
-You can always ensure that you've done what you think you've done
+You can always ensure that you've done what you think you've done:
+
 ```sql
 /*
 In case you forget what has been enabled, view the results like this.
 */
 SELECT GetGpkgMode(), GetGpkgAmphibiousMode();
 ```
-Generally speaking, start with enableGpkgMode() to ensure maximum compatibility.
+Generally speaking, start with enableGpkgMode() to ensure maximum compatibility. Over the course of time, you may find that pure GeoPackage mode can't be enabled. This is because of the intermingling of functions between Spatialite and the Geopackage standard. It's not an enormous problem, and you can enable the amphibious mode if you have to and things will still work just fine.
 
 Find the projection of your data:
 
@@ -70,7 +71,7 @@ Find the projection of your data:
 SELECT SRID(geom) FROM prop_parcel_polygons LIMIT 4;
 ```
 
-link to [EPSG definitions](spatialreference.org)
+There are many (many) map projections. This is a fine source of reference: [EPSG definitions](spatialreference.org). It's not exhaustive, because it's possible to define your own projections too.
 
 {: .important}
 If you need to transform your coordinate systems, you *must* have a table called **spatial_ref_sys**. If you don't have that table, the transformations won't work.
