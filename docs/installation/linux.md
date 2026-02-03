@@ -21,11 +21,14 @@ Use the terminal to search for **spatialite** and **librasterlite2**
 Install **libspatialite** and determine where it is. How to do this is left as an exercise for the reader.  
 
 *3a*{: .circle .circle-blue}
+Install **proj** as outlined in the [installation instructions](https://proj.org/en/stable/install.html){:target="_blank"}. If necessary, update **PROJ_DATA** and **PROJ_LIB** environment variables.
+
+*3b*{: .circle .circle-blue}
 Optional raster support.  Install **librasterlite2**
 
 
 *4*{: .circle .circle-blue}
-Add extensions. In DB Browser for SQLite, go to Preferences/Extensions. Under _Select extensions to load for every database_, select the puzzle piece with the plus sumbyl (the top icon).
+Add extensions. In DB Browser for SQLite, go to Preferences/Extensions. Under _Select extensions to load for every database_, select the puzzle piece with the plus symbol (the top icon).
 
 You will need to navigate to `mod_spatialite.so` (or some variant of this). These files are usually installed somewhere in  `/lib`.
 
@@ -37,7 +40,7 @@ Where those will be will be dependent on the architecture of your system.
 
 Make sure to Save.
 
-*3a*{: .circle .circle-blue}
+*4a*{: .circle .circle-blue}
 Optional: To set DB Browser to open GeoPackage files by default:
 
 * Go to Preferences/General/**DB File Extensions** near the bottom of the window. Select **Manage**  
@@ -49,7 +52,7 @@ Optional: To set DB Browser to open GeoPackage files by default:
 * When it looks like the above, hit OK.
 * Save all of your changes.
 
-*3b*{: .circle .circle-blue}
+*4b*{: .circle .circle-blue}
 Optional: relax the security when you run DB Browser.  
 
 {: .important}

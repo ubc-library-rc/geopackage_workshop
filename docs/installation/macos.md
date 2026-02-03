@@ -12,7 +12,6 @@ Your life will be greatly simplified if you use [homebrew](https://brew.sh). The
 *1*{: .circle .circle-blue}
 Install DB Browser for SQLite: `brew install --cask sqlite-browser`.
 
-
 *2*{: .circle .circle-blue}
 Install **libspatialite**: `brew install libspatialite`.
 
@@ -31,7 +30,10 @@ For rasterlite support, do the same thing with the rasterlite file.
 {: .important}
 If you update the libraries (with `brew update`, for example) you may need to update these paths as well.
 
-*3a*{: .circle .circle-blue}
+*4*{: .circle .circle-blue}
+Install **proj**: `brew install proj`.
+
+*4a*{: .circle .circle-blue}
 Optional: To set DB Browser to open GeoPackage files by default:
 
 * Go to Preferences/General/**DB File Extensions** near the bottom of the window. ![DB Browser General Preferences](../assets/images/mac_db_browser_general_prefs.png)
@@ -43,7 +45,7 @@ Optional: To set DB Browser to open GeoPackage files by default:
 * On the subsequent screen, hit Save.
 
 
-*3b*{: .circle .circle-blue}
+*4b*{: .circle .circle-blue}
 Optional: relax the security when you run DB Browser. 
 
 {: .important} 

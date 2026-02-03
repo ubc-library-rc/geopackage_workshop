@@ -24,8 +24,14 @@ Add extensions. In DB Browser for SQLite, go to Preferences/Extensions. Under _S
 
 For rasterlite support, do the same thing with the rasterlite file (which you laboriously compiled), which will (probably) be called something like `mod_rasterlite2.dll`.
 
+*4*{: .circle .circle-blue}
+Install **proj**: Installation instructions are available here: <https://proj.org/en/stable/install.html>{:target="_blank"}
+ 
+
 {: .important}
-**You must add the path to the dll to the as part of the `PATH` environment variable**. Otherwise it won't load properly (see below). Follow the same procedure as below, but append the path to the dll directory to the end of your `PATH`. **Do not delete any of the other paths**.
+>**You must add the path to the spatialite/rasterlite dll files to the as part of the `PATH` environment variable**. Otherwise it won't load properly (see below). Follow the same procedure as below, but append the path to the dll directory to the end of your `PATH`. **Do not delete any of the other paths**.
+>
+>You *must also* add the paths to the directory containing **proj.db** in *two* environment variables, **PROJ_DATA** and **PROJ_LIB**.
 
 *3a*{: .circle .circle-blue}
 Optional: To set DB Browser to open GeoPackage files by default:

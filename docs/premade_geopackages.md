@@ -4,6 +4,8 @@ title: Using DB Browser with premade GeoPackages
 nav_order: 10
 ---
 
+# Using premade GeoPackages
+
 We will first start off by understanding how to use an already existing GeoPackage database. This is not a tutorial for the [DB Browser](https://sqlitebrowser.org) interface; it assumes you can use the interface for basic operations like entering SQL, etc. All of the functions are available via reasonably obvious buttons or through menus.
 
 *1*{: .circle .circle-blue} Open an existing geopackage database with File/Open; the images and examples in this tutorial use a geopackage called `property-parcel-polygons.gpkg`, which, if you have cloned the Github repository, is at `src/data`.
@@ -64,38 +66,6 @@ SELECT GetGpkgMode(), GetGpkgAmphibiousMode();
 ```
 Generally speaking, start with enableGpkgMode() to ensure maximum compatibility. Over the course of time, you may find that pure GeoPackage mode can't be enabled. This is because of the intermingling of functions between Spatialite and the Geopackage standard. It's not an enormous problem, and you can enable the amphibious mode if you have to and things will still work just fine.
 
-Find the projection of your data:
-
-```sql
---Show the projection of the layer
-SELECT SRID(geom) FROM prop_parcel_polygons LIMIT 4;
-```
-
-There are many (many) map projections. This is a fine source of reference: [EPSG definitions](spatialreference.org). It's not exhaustive, because it's possible to define your own projections too.
-
-{: .important}
-If you need to transform your coordinate systems, you *must* have a table called **spatial_ref_sys**. If you don't have that table, the transformations won't work.
-
-If this doesn't work check to see if the spatial_ref_sys  table is there. It probably isn't. Then you must create it!
-
-Thankfully, this is easy.
-```sql
-select InitSpatialMetadata();
-```
-The function creates any necessary tables, but they won't be visible in the schema viewer until you save and reopen the database. But it will still work even if the tables are not not visible. You can verify that the command worked by seeing if the tables are present, because they will be listed in the (hidden by default) `sqlite_master` table:
-
-Without the spatial metadata, coordinate transformations will not work!
-
-`select * from sqlite_master where name like '%spatial%'`
-
-
-Why? Discussion of coordinate systems, especially WGS-84 and lat/long
-
-In a GIS application, this is normally built-in to the software. But you are not using GIS software.
-
-```sql
--- Reproject geometry to EPSG:4326 (WGS 84) 
-SELECT transform(castAutomagic(geom), 4236) FROM prop_parcel_polygons;
-```
-
+{: .note}
+This is actually the case with the sample database; if you try you will see that GetGpkgMode always returns 0. This is because it was laboriously converted to a GeoPackage manually for the purposes of this tutorial.
 

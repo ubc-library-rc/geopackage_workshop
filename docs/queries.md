@@ -3,17 +3,46 @@ layout: default
 title:  Queries part 1 
 nav_order: 15 
 ---
-## Basic queries
-Basic example
+# Basic queries
+
+Technically, the commands from  [projections](projections.md) page constitute a SQL query. But as queries go, they didn't produce a lot of data that would be useful in a real-life situation besides verifying that the software workd. 
+
+A SQL query is normally designed to extract some sort of pertinent information from your collection of data. SQL is somewhat like natural language, which means, in practice, that it's not actually natural language but close enough that errors are hard to find because of your order word.
+
+If you have no knowledge of SQL, you may want to have a look at this [SQL tutorial](https://www.w3schools.com/sql/default.asp). These and following sections will mostly focus on Spatialite/GeoPackage specific language or less-common SQL.
+
+## A very basic query
+
+Here's a somewhat useful query that shows the latitude of parcels.
 
 ```sql
 /*
 Select the centroid points of parcels and
 return only the longitudes as degrees
 */
-SELECT x(centroid(transform(castautomagic(geom),4326))) AS long
+SELECT X(Centroid(Transform(CastAutomagic(geom),4326))) AS long
 FROM prop_parcel_polygons LIMIT 3;
 ```
+
+Let's examine this in a little more detail. SQL, like written English, is evaluated from left to write. But because this is a computer language, not always.
+
+The key here is `X(Centroid(Transform(CastAutomagic(geom),4326)))`. This is a set of Spatialite functions all nested within each other. It's important to remember that the order of operations inside functions is from the inside out. That is, in this order
+
+* CastAutomagic()
+* Transform()
+* Centroid()
+* X()
+
+
+CastAutomagic transforms the geometry so that it will work *regardless* of whether it's GeoPackage geometry or Spatialite geometry. That output is passed to Transform, which converts it EPSG:4326 projection (WGS 84, or latitude/longitude unprojected data). That is then passed to the Centroid function, which calculates the Centroid or centre point of the polygon. Finally, the x dimension (or longitude) is extracted from the centroid.
+
+Next is **AS**, which is your friend while using Spatialite. The AS clause will rename the column to **long**, instead of using its default value of **X(Centroid(Transform(CastAutomagic(geom),4326)))**, which I think we can all agree is a terrible name for a column.
+
+X(Centroid(Transform(CastAutomagic(geom),4326)))
+
+
+
+
 
 Order of operations
 Discuss
