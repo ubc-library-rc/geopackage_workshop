@@ -5,8 +5,8 @@ of what happens if you use the wrong projection.
 */
 SELECT
 *,
-x(Centroid(Transform(CastAutomagic(geom),4326))) AS long,
-y(Centroid(Transform(CastAutomagic(geom),4326))) AS lat,
+X(Centroid(Transform(CastAutomagic(geom),4326))) AS long,
+Y(Centroid(Transform(CastAutomagic(geom),4326))) AS lat,
 Area(CastAutoMagic(geom)) AS area,
 Area(Transform(CastAutomagic(geom),4326)) AS badarea
 FROM prop_parcel_polygons

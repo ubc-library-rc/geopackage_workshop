@@ -7,8 +7,8 @@ DistanceWithin(centroid(CastAutomagic(prop_parcel_polygons.geom)), castAutomagic
 round(Distance(CastAutomagic(prop_parcel_polygons.geom), castAutomagic(schools.geom))) AS distance_m,
 SRID(prop_parcel_polygons.geom) AS SRID_geom,
 SRID(schools.geom) AS SRID_school,
-x(centroid(transform(castAutoMagic(prop_parcel_polygons.geom), 4326))) as long_prop,
-y(centroid(transform(castAutoMagic(prop_parcel_polygons.geom), 4326))) as lat_prop
+X(centroid(transform(castAutoMagic(prop_parcel_polygons.geom), 4326))) as long_prop,
+Y(centroid(transform(castAutoMagic(prop_parcel_polygons.geom), 4326))) as lat_prop
 FROM prop_parcel_polygons
 FULL OUTER JOIN (SELECT * FROM sd_39_schools AS schools WHERE schools.SCHOOL_NAME='Lord Byng Secondary')AS schools
 WHERE

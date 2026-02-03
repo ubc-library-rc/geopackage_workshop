@@ -5,8 +5,8 @@ Remember, SPATIALITE_SECURITY must be 'relaxed'
 The same procedure applies for shapefiles, kmls and other exports.
 Read the functions carefully
 */
-SELECT disableGpkgMode();
-SELECT disableGpkgAmphibiousMode();
+SELECT DisableGpkgMode();
+SELECT DisableGpkgAmphibiousMode();
 --the next two commands aren't necessary if the table doesn't exist yet
 DROP TABLE IF EXISTS secondary;
 DELETE FROM  geometry_columns WHERE f_table_name='secondary';
