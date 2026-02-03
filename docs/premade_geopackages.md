@@ -68,4 +68,3 @@ Generally speaking, start with enableGpkgMode() to ensure maximum compatibility.
 
 {: .note}
 This is actually the case with the sample database; if you try you will see that GetGpkgMode always returns 0. This is because it was laboriously converted to a GeoPackage manually for the purposes of this tutorial.
-

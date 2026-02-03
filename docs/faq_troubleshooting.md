@@ -33,3 +33,7 @@ Use whatever method you like to find that file, and then set the environment var
 If you have QGIS installed, the **proj** directory is already available to you, at _[QGIS Installation Directory]/share/proj_.
 
 A discussion of this (although not related to this specific problem) is available here: <https://github.com/pyproj4/pyproj/discussions/1262>{:target="_blank"}
+
+### The dataset prop_parcel_polygons already has JSON data with lat/long points. Why are we using X() and Y()?
+
+Yes, you can parse JSON data with SQLite, but this is a GeoPackage tutorial. And having JSON with lat/long points is a rarity. The eagle-eyed may notice that the values may not be exactly the same as those calculated. This can happen for a number of reasons, including, but not limited to, the original coordinate system and transformations used and floating point accuracy. For a discussion of what the difference may mean, see this Stackexchange page: <https://gis.stackexchange.com/questions/8650/measuring-accuracy-of-latitude-and-longitude>{:target="_blank"}.

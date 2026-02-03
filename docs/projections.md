@@ -36,7 +36,7 @@ The function creates any necessary tables, but they won't be visible in the sche
 
 Without the spatial metadata, coordinate transformations will not work!
 
-`select * from sqlite_master where name like '%spatial%'`
+`SELECT * from sqlite_master WHERE name LIKE '%spatial%'`
 
 ### Why projections are extremely important.
 
@@ -50,14 +50,14 @@ If you want to relate spatial attributes between layers, they need to use the sa
 
 ```sql
 -- Reproject geometry to EPSG:4326 (WGS 84) 
-SELECT transform(castAutomagic(geom), 4236) FROM prop_parcel_polygons LIMIT 4;
+SELECT Transform(castAutomagic(geom), 4236) FROM prop_parcel_polygons LIMIT 4;
 ```
 
 This will transform the geometry form one projection to another. When you run this query, you can't tell though, because it's just outputting a binary blob. But trust me, you have. But trust is in short supply these days.
 
 ```sql
 --Verify that your transformation worked
-SELECT x(transform(centroid(castAutomagic(geom)), 4236)) FROM prop_parcel_polygons LIMIT 10
+SELECT X(Transform(Centroid(castAutomagic(geom)), 4236)) FROM prop_parcel_polygons LIMIT 10
 ```
 
 You may note the "centroid" portion. The parcel polygons are, well, polygons, so they don't have single x (or longitude) value. This demonstration took the x-value of the centre point. And if if still doesn't make any sense the [queries](queries.md) page goes into more detail.
@@ -70,6 +70,3 @@ You may note the "centroid" portion. The parcel polygons are, well, polygons, so
 ### Bonus section
 
 Not all analyses take place on the earth, and even non-terrestrial objects have projections. Because it's possible to define your own projections if you are so inclined, the number of sources of potential errors are limitless. This is why data science consists of largely of banging your head into the corner of a desk.
-
-
-
