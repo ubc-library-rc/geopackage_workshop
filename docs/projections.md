@@ -5,7 +5,7 @@ nav_order: 12
 ---
 # The earth is not flat 
 
-Although the earth is round(ish), the way Spatialite (and really almost all geographic software works) is by calculating things in (largely) two dimensions. This means that the sphere is flattened out, like taking an orange, unpeeling it (technically an optional step), and making it flat. This has an effect on calculations, because doing this means that not all of distance, area and shape can be preserved at the same time. Differences may be negligible if you're examining small areas, but much more pronounced for large areas. 
+Although the earth is round(ish), the way GeoPackages/Spatialite (and really almost all geographic software) works is by calculating things in (largely) two dimensions. This means that the sphere is flattened out, like taking an orange, unpeeling it (technically an optional step), and making it flat. This has an effect on calculations, because doing this means that not all of distance, area and shape can be preserved at the same time. Differences may be negligible if you're examining small areas, but much more pronounced for large areas. 
 
 The correspondence between the points on the intact orange and and the flattened orange defines the projection/spatial reference system.
 
@@ -21,14 +21,19 @@ SELECT SRID(geom) FROM prop_parcel_polygons LIMIT 4;
 
 You will see that it is technically possible to store each piece of data in a different projection. Just because you can, does not mean you *should*. The overwhelming majority of data sets will have the same projection for each piece of data, at least within a single table.
 
-There are many (many) map projections. This is a fine source of reference: [EPSG definitions](https://spatialreference.org){:target="_blank"}. It's not exhaustive, because it's possible to define your own projections too.
+There are many (many) map projections. This is a fine source of reference: [EPSG definitions](https://spatialreference.org){:target="_blank"}. It's not exhaustive, because it's possible to define your own projections too. And if you're wondering what EPSG means, it stands for "European Petroleum Survey Group", because when you make a standard you can name it after yourself.
 
 {: .important}
 If you need to transform your coordinate systems, you *must* have a table called **spatial_ref_sys**. If you don't have that table, the transformations won't work.
 
-If this doesn't work check to see if the spatial_ref_sys  table is there. It probably isn't. Then you must create it!
+If the above command didn't work check to see if the `gpkg_spatial_ref_sys` and/or `spatial_ref_sys` table is there.
 
-Thankfully, this is easy.
+```sql
+SELECT * from sqlite_master WHERE name LIKE '%spatial%
+```
+
+You will see a listing of all the spatial tables in your database. If what you want is not there, you must create it. Thankfully, this is easy.
+
 ```sql
 select InitSpatialMetadata();
 ```
@@ -36,7 +41,6 @@ The function creates any necessary tables, but they won't be visible in the sche
 
 Without the spatial metadata, coordinate transformations will not work!
 
-`SELECT * from sqlite_master WHERE name LIKE '%spatial%'`
 
 ### Why projections are extremely important.
 
@@ -46,7 +50,7 @@ If you've never used map projections before, you may be scratching your head by 
 
 * Imagine you have another set of data which you have imported. This set has latitude and longitude points. This type of data is "unprojected", meaning it gives spherical coordinates. While there are many unprojected coordinate systems, most commonly this data is in [WGS 84 (EPSG:4326)](https://spatialreference.org/ref/epsg/4326/){:target="_blank"}. The units of measure are degrees.
 
-If you want to relate spatial attributes between layers, they need to use the same frame of reference, otherwise the results may be meaningless, "This school is 20 degrees away". In a GIS application like, say, QGIS, coordinate transformations are often done automatically. But you are not using GIS software, so you have to do it yourself. Fortunately, this is not particularly difficult to do. 
+If you want to relate spatial attributes between digital objects, they need to use the same frame of reference, otherwise the results may be meaningless, "This school is 20 degrees away". In a GIS application like, say, QGIS, coordinate transformations are often done automatically. But you are not using GIS software, so you have to do it yourself. Fortunately, this is not particularly difficult to do. For example, you can easily turn one coordinate system into another, something which is called "reprojecting":
 
 ```sql
 -- Reproject geometry to EPSG:4326 (WGS 84) 
@@ -70,3 +74,7 @@ You may note the "centroid" portion. The parcel polygons are, well, polygons, so
 ### Bonus section
 
 Not all analyses take place on the earth, and even non-terrestrial objects have projections. Because it's possible to define your own projections if you are so inclined, the number of sources of potential errors are limitless. This is why data science consists of largely of banging your head into the corner of a desk.
+
+---
+
+Now you have enough knowledge to [start querying your database](queries.html).

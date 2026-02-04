@@ -5,11 +5,11 @@ nav_order: 15
 ---
 # Basic queries
 
-Technically, the commands from  [projections](projections.md) page constitute a SQL query. But as queries go, they didn't produce a lot of data that would be useful in a real-life situation besides verifying that the software workd. 
+Technically, the commands from  [projections](projections.md) page constitute a SQL query. But as queries go, they didn't produce a lot of data that would be useful in a real-life situation besides verifying that the software worked. 
 
 A SQL query is normally designed to extract some sort of pertinent information from your collection of data. SQL is somewhat like natural language, which means, in practice, that it's not actually natural language but close enough that errors are hard to find because of your order word.
 
-If you have no knowledge of SQL, you may want to have a look at this [SQL tutorial](https://www.w3schools.com/sql/default.asp). These and following sections will mostly focus on Spatialite/GeoPackage specific language or less-common SQL.
+If you have no knowledge of SQL, you may want to have a look at this [SQL tutorial](https://www.w3schools.com/sql/default.asp). The following sections and pages will mostly focus on Spatialite/GeoPackage specific language or less-common SQL.
 
 ## Example 1: Show the longitude of parcels
 
@@ -42,7 +42,7 @@ Next is **AS**, which is your friend while using Spatialite. The AS clause will 
 
 You're selecting data **FROM** a single table, in this case *prop\_parcel\_polygons*.
 
-You want only the lowest values (and remember, west is a negative number), so you ORDER BY long. And finally, you only want the first three records, so you use **LIMIT 3**.
+You want only the lowest values (and remember, west is a negative number), so you **ORDER BY** long. And finally, you only want the first three records, so you use **LIMIT 3**.
 
 
 
@@ -100,7 +100,7 @@ Most of the statements should be familiar, but now there's a **WHERE** clause, w
 Like other functions, work from the centre outwards:
 
 * MakePoint() takes three parameters. First is the x or longitude value, the second the y or latitude value. The 4236 tells you that it's in the WGS84 coordinate system (lat/long).
-* CastAutomagic() ensures that the coordinates will be parsed correctly when you pass it to . .
+* CastAutomagic() ensures that the coordinates will be parsed correctly when you pass it to...
 * Transform(). The second parameter of the function (3005) converts the coordinates to EPSG:3005 (BC Albers), which, if you recall, was found using SRID near the beginning of the tutorial. 
 * DistanceWithin(). The first parameter is geometry from the query (ie, the parcel), the second parameter is the giant chain from above, and the third, 250, is the maximum distance in metres. Note that this is split up on two lines. It's not necessary to have everything on one line as long as you keep all of your parentheses and commas in order.
 

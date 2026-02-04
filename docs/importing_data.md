@@ -19,7 +19,7 @@ First, you'll need to import the data in the traditional DB Browser way, which i
 
 ![Import a csv file](assets/images/mac_db_browser_import_csv.png)
 
-This imports the data in the table, but the coordinates in it are not yet spatially aware. There are few hoops to jump through, but thankfully they are reasonably easy hoops.
+This imports the data in the table, but the coordinates in it are not yet spatially aware. There are few hoops to jump through, but they are large, low hoops.
 
 {: .note}
 If you've been following along, you can skip the top part of the SQL below (and it's commented out anyway) because you've already done it. Only execute the last statement. 
@@ -44,14 +44,14 @@ SELECT InitSpatialMetadata();
 SELECT gpkgAddGeometryColumn('sd_39_schools', 'geom', 'POINT', 0, 0, 3005);
 ```
 
-The next step is to add the spatially aware component, or _geometry_. This is the component that allows you to use Spatialite functions. Otherwise, your data is just an ordinary table with no geographic component which is probably not what you want.
+This very important step adds the spatially aware component, or _geometry_. This is the component that allows you to use Spatialite/GeoPackage functions functions. Otherwise, your data is just an ordinary table with no geographic component which is probably not what you want.
 
-Traditionally, geometry columns are named **geom**. You don't _have_ to do this, but if you adhere to common standards it will make your life easier. If you perform a `SELECT *` on the table you just added, you will see that there is now an empty column labelled geom.
+Traditionally, geometry columns are named **geom**. You don't _have_ to do this, but if you adhere to common standards it will make your life easier. If you perform a `SELECT *` on the table you just added, you will see that there is now an empty column labelled **geom**, because you haven't added any data to it yet.
 
 {: .important}
-You'll notice here that the geometry column command has the projection as EPSG:3005, or BC Albers. This is *not* the projection of our data, but it's the projection it _will be_.
+You'll notice here that the command used to create the geometry column has the projection as EPSG:3005, or BC Albers. This is *not* the projection of our data, but it's the projection it _will be_.
 
-Now that you have a column ready to accept the geometry, you need to create it. Geometry creation is just as simple as earlier. The example below shows you how to create it, but not insert it, so that you can check that it looks OK first.
+Now that you have a column ready to accept the geometry, you need to create the data that goes into it. You have already created geometry by making a point earlier; this is not vastly different. The example below shows you how to create create your geometry, but it doesn't insert it into your new column so that you can check that it looks OK first.
 
 
 ```sql
@@ -73,8 +73,7 @@ That last Transform() command is the kicker. It transforms your data from lat/lo
 This is not technically required, but uou will make your life simpler if all of the data in your database is in the same projection. If you decide not to do this, you will need to ensure that the coordinate systems are the same when you perform operations and transform data on the fly if required. What you ultimately decide to do depends on what your goals are.
 
 
-
-Now that your data seems to look OK, you can write it to the **geom** column in the `sd_39_schools` table:
+Now that your data meets your exacting standards, you can write it to the **geom** column in the `sd_39_schools` table:
 
 ```sql
 /*
@@ -90,11 +89,13 @@ SELECT rowid, Transform(CastAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE,
 WHERE sd_39_schools.rowid = tmp.rowid
 ```
 
-Here, you'll notice that you're updating from a **SELECT** statement. Using the hidden identifier **rowid** (ie, every line of data in every table has a **rowid**), you can match the geometry to the row that it goes into. Again, from the centre out:
+Here, you'll notice that you're updating from a **SELECT** statement. Using the hidden identifier **rowid**, you can match the geometry to the row that it goes into. Every SQLite table will have a column called **rowid** created by default even if it is not explicitly created that way.
 
-* Make the select statement which produces results with the geometry you need. Ensure that you have something to match with your target table, in this case, rowid.
+Again, working through the query from the centre outward:
+
+* Make the **SELECT** statement which produces results with the geometry you need. Ensure that you have something to match with your target table, in this case, **rowid**.
 * Update the `sd_39_schools` table, setting the **geom** column to **geom_gpb** from your SELECT statement. 
-* The WHERE clause ensures that you're matching the rowids.
+* The **WHERE** clause ensures that you're matching the **rowids**.
 
 
 Now your data is in the GeoPackage as spatially-aware data and you can use it to work with any other table in your database.
