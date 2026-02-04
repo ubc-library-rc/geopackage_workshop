@@ -3,18 +3,26 @@ layout: default
 title: Importing external data 
 nav_order: 20
 ---
-## Importing data
+## Importing external data into a GeoPackage
 
-Many times you will need to import data because your are studying something else. 
-Use School data `sd_39_schools.csv`
+It's a very rare situation where you will find a single data source that has everything you need. And if you're a researcher, you will undoubtedly need to use your own data. Because SQLite is a database and designed for importing and manipulating data, this is easy to do. While DB Browser for SQLite makes importing (non-spatial) data almost as easy as opening a file, as you have come to expect by now there are a few extra steps required for importing data with a geographic component.
 
-Came from provincial gov't
-cropped for brevity
+In the `src/data/` folder of the repository you will fine a file called `sd_39_schools.csv`. 
+
+{: .note}
+>This is a subset of the PC provincial government's [BC Schools - K-12 with Francophone Indicators](https://catalogue.data.gov.bc.ca/dataset/bc-schools-k-12-with-francophone-indicators){:target="_blank"} dataset, which is also in the same directory in case you feel like using it later.
+>
+>This data set is limited to School District 39, Vancouver, as the property-parcel-polygons package is limited to this area.
 
 
-Not quite as straightforward as a regular import, because you have to turn your spreadsheet into something which is geospatially aware.
+First, you'll need to import the data in the traditional DB Browser way, which is a very straighforward **File/Import/Table from CSV file...**. Select `sd_39_schools.csv`, and configure the import as per the screenshot below.
 
-Import data from CSV file
+![Import a csv file](assets/images/mac_db_browser_import_csv.png)
+
+This imports the data in the table, but the coordinates in it are not yet spatially aware. There are few hoops to jump through, but thankfully they are reasonably easy hoops.
+
+{: .note}
+If you've been following along, you can skip the top part of the SQL below (and it's commented out anyway) because you've already done it. Only execute the last statement. 
 
 ```sql
 /*You should have already performed these steps
@@ -33,29 +41,40 @@ SELECT InitSpatialMetadata();
 -- Then, you need to add a geometry column
 */
 
-SELECT gpkgAddGeometryColumn('sd_39_schools', 'geom', 'POINT', 0, 0, 4326);
+SELECT gpkgAddGeometryColumn('sd_39_schools', 'geom', 'POINT', 0, 0, 3005);
 ```
+
+The next step is to add the spatially aware component, or _geometry_. This is the component that allows you to use Spatialite functions. Otherwise, your data is just an ordinary table with no geographic component which is probably not what you want.
+
+Traditionally, geometry columns are named **geom**. You don't _have_ to do this, but if you adhere to common standards it will make your life easier. If you perform a `SELECT *` on the table you just added, you will see that there is now an empty column labelled geom.
+
+{: .important}
+You'll notice here that the geometry column command has the projection as EPSG:3005, or BC Albers. This is *not* the projection of our data, but it's the projection it _will be_.
+
+Now that you have a column ready to accept the geometry, you need to create it. Geometry creation is just as simple as earlier. The example below shows you how to create it, but not insert it, so that you can check that it looks OK first.
+
 
 ```sql
 /*
-If you ever delete your table or have problems creating a geometry column, have a look
-at gpkg_geometry_columns and make sure that there is not an entry already.
-
-It will persist EVEN IF THE TABLE HAS BEEN DELETED, so you have to delete
-the entry manually.
-
+Intermediate step showing how to add points and convert them to a different projection
 */
-DELETE FROM  gpkg_geometry_columns WHERE table_name='sd_39_schools';
+SELECT Transform(castAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, SCHOOL_LATITUDE, 4326)), 3005) 
+	FROM sd_39_schools;
 ```
 
-You can create the geometry like this (note, this doesn't actually add it to the table):
+This works exactly as the examples earlier. Working from the centre out:
 
-```sql
-SELECT transform(castAutoMagic(gpkgMakePoint(SCHOOL_LONGITUDE, SCHOOL_LATITUDE, 4326)), 3005) from sd_39_schools;
-```
-Transforms the data so that it uses the same projection aas the original data set, for ease of use later.
+* gpkgMakePoint() takes two coordinates and a projection, in this case WGS84 longitude and latitude
+* castAutomagic() performs its magic
+* Transform() converts it to EPSG:3005, or BC Albers projection.
 
-To add it to the file:
+That last Transform() command is the kicker. It transforms your data from lat/long coordinated to BC Albers. That means that you now have easy access to *both* lat/long as degrees (because they're attributes in the table) and the geometry as BC Albers. And your imported data matches the projection of the rest of the data. 
+
+This is not technically required, but uou will make your life simpler if all of the data in your database is in the same projection. If you decide not to do this, you will need to ensure that the coordinate systems are the same when you perform operations and transform data on the fly if required. What you ultimately decide to do depends on what your goals are.
+
+
+
+Now that your data seems to look OK, you can write it to the **geom** column in the `sd_39_schools` table:
 
 ```sql
 /*
@@ -64,8 +83,40 @@ This will *actually* do the update
 UPDATE sd_39_schools SET geom = geom_gpb 
 FROM 
 (
-SELECT transform(castAutoMagic(gpkgMakePoint(SCHOOL_LONGITUDE, SCHOOL_LATITUDE, 4326)), 3005) AS geom_gpb FROM sd_39_schools
-)
+SELECT rowid, Transform(CastAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, 
+        SCHOOL_LATITUDE, 4326)), 3005) 
+	AS geom_gpb FROM sd_39_schools
+ ) AS tmp	 
+WHERE sd_39_schools.rowid = tmp.rowid
 ```
 
-Now your data is in the geopackage and you can use it to work with any other table in your database.
+Here, you'll notice that you're updating from a **SELECT** statement. Using the hidden identifier **rowid** (ie, every line of data in every table has a **rowid**), you can match the geometry to the row that it goes into. Again, from the centre out:
+
+* Make the select statement which produces results with the geometry you need. Ensure that you have something to match with your target table, in this case, rowid.
+* Update the `sd_39_schools` table, setting the **geom** column to **geom_gpb** from your SELECT statement. 
+* The WHERE clause ensures that you're matching the rowids.
+
+
+Now your data is in the GeoPackage as spatially-aware data and you can use it to work with any other table in your database.
+
+{: .note-title}
+>
+>Troubleshooting
+>
+>Sometimes things don't go the way you would like, and you need to find a way to get back to the way they were. If, say, you delete your imported table because of problem, you may have problems with a new import. That's because remnants may still exist in the spatial metadata, notably `gpkg_geometry_columns`. The solution is to delete problematic records.
+>
+>```sql
+>/*
+>If you ever delete your table or have problems creating a geometry column, have a look
+>at the table gpkg_geometry_columns and make sure that there is not an entry already.
+>
+>It will persist EVEN IF THE ORIGINAL TABLE HAS BEEN DELETED, so you have to delete
+>the entry manually.
+>
+>*/
+>DELETE FROM gpkg_geometry_columns WHERE table_name='sd_39_schools';
+>```
+>
+>Depending on what you've done, there may be data remnants in other tables, too.
+
+Now that you've finished all that, you can start joining tables to each other for more [advanced queries](queries_continued.html).

@@ -73,3 +73,12 @@ db_browser() {export SPATIALITE_SECURITY=relaxed;
 This will allow you to run DB Browser normally if you, say, click on its icon, but if you start it from the terminal with `db_browser`, you will be able to export. 
 
 Alternately, you can just add `export SPATIALITE_SECURITY=relaxed` to your `~/.zshrc` or `~/.bashrc`, but be aware that this is not recommended.
+
+*5*{: .circle .circle-blue}
+Restart DB Browser for SQLite
+
+If DB Browser is open, close it and reopen it. You need to do this because if you set the environment variables after opening it, they haven't been read.
+
+---
+
+Now you can start working with [GeoPackages](../premade_geopackages.html).

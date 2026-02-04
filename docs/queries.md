@@ -18,14 +18,15 @@ Here's a marginally useful query that shows the 3 westernmost parcels.
 ```sql
 /*
 Select the centroid points of parcels and
-return only the longitudes as degrees
+return longitude as degrees
 */
-select *,
-SELECT X(Centroid(Transform(CastAutomagic(geom),4326))) AS long
+SELECT *, X(Centroid(Transform(CastAutomagic(geom),4326))) AS long
 FROM prop_parcel_polygons ORDER BY long LIMIT 3;
 ```
 
 Let's examine this in a little more detail. SQL, like written English, is evaluated from left to write. But because this is a computer language, not always.
+
+`SELECT *` selects and displays all of the columns in the table. But there will be an _column_.
 
 The key here is `X(Centroid(Transform(CastAutomagic(geom),4326)))`. This is a set of Spatialite functions all nested within each other. It's important to remember that the order of operations inside functions is from the inside out. That is, in this order
 

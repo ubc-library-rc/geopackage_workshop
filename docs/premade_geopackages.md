@@ -8,7 +8,13 @@ nav_order: 10
 
 We will first start off by understanding how to use an already existing GeoPackage database. This is not a tutorial for the [DB Browser](https://sqlitebrowser.org) interface; it assumes you can use the interface for basic operations like entering SQL, etc. All of the functions are available via reasonably obvious buttons or through menus.
 
-*1*{: .circle .circle-blue} Open an existing geopackage database with File/Open; the images and examples in this tutorial use a geopackage called `property-parcel-polygons.gpkg`, which, if you have cloned the Github repository, is at `src/data`.
+*1*{: .circle .circle-blue} Open an existing geopackage database with File/Open; the images and examples in this tutorial use a geopackage called `property-parcel-polygons.gpkg`, which, if you have cloned the Github repository, is at `src/data`. 
+
+{: .note}
+This dataset is a geopackage made specifically for tutorial purposes, made from [Parcel Map BC](https://catalogue.data.gov.bc.ca/dataset/parcelmap-bc-parcel-polygons-ogl){:target="_blank"}, data, but limited to Vancouver, BC (ie, cropped to the Vancouver Census Metropolitan Area).
+
+{: .important}
+Going through this tutorial will *change* the database. If you want to do this tutorial again, make a copy of the database before using it. Alternately, if you know git, you can reset with git commands.
 
 *2*{: .circle .circle-blue}To ensure that your Spatialite extensions are working properly, switch to the **Execute SQL** tab, and run the following SQL:
 

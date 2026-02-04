@@ -13,5 +13,5 @@ SELECT InitSpatialMetadata();
 
 -- Then, you need to add a geometry column
 */
-
-SELECT gpkgAddGeometryColumn('sd_39_schools', 'geom', 'POINT', 0, 0, 4326);
+--Note that the projection is EPSG:3005
+SELECT gpkgAddGeometryColumn('sd_39_schools', 'geom', 'POINT', 0, 0, 3005);
