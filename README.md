@@ -3,9 +3,9 @@
 ### Paul Lesack, UBC Library Research Commons
 ### Jeremy Buhler, UBC Library Research Commons
 
-Description: This workshop will provide an introduction to using Geopackage spatial databases _without_ using specialized geographic information systems software. The course is aimed primarily at users of [BC Assessment data](https://abacus.library.ubc.ca/dataverse/abacus/?q=%22bc+assessment%22), which is restricted to authorized users at the University of British Columbia, Simon Fraser University, the University of Victoria and the University of Northern British Columbia.
+Description: This workshop will provide an introduction to using GeoPackage spatial databases _without_ using specialized geographic information systems software. 
 
-The only only software you will need is an interface to [SQLite](sqlite.org). This workshop will use [DB Browser for SQLite](sqlitebrowser.org), but any SQLite software will do.
+The only only software you will need is an interface to [SQLite](sqlite.org). This workshop will use [DB Browser for SQLite](sqlitebrowser.org), but any SQLite software will do. You will also need to install extensions for SQLite, which is covered in the installation instructions (see `docs/installation`).
 
 It also presupposes *some* knowledge of SQL (structured query language), although if you don't know any it may still be of use to you.
 
