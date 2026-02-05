@@ -15,6 +15,7 @@ You can see what projection your data layer has by a simple commmand. "SRID" see
 
 
 ```sql
+--show_projection.sql
 --Show the projection of the layer
 SELECT SRID(geom) FROM prop_parcel_polygons LIMIT 4;
 ```
@@ -53,13 +54,15 @@ If you've never used map projections before, you may be scratching your head by 
 If you want to relate spatial attributes between digital objects, they need to use the same frame of reference, otherwise the results may be meaningless, "This school is 20 degrees away". In a GIS application like, say, QGIS, coordinate transformations are often done automatically. But you are not using GIS software, so you have to do it yourself. Fortunately, this is not particularly difficult to do. For example, you can easily turn one coordinate system into another, something which is called "reprojecting":
 
 ```sql
--- Reproject geometry to EPSG:4326 (WGS 84) 
+--reproject_geometry.sql
+-- Reproject geometry to EPSG:4326 (WGS 84)
 SELECT Transform(castAutomagic(geom), 4236) FROM prop_parcel_polygons LIMIT 4;
 ```
 
 This will transform the geometry form one projection to another. When you run this query, you can't tell though, because it's just outputting a binary blob. But trust me, you have. But trust is in short supply these days.
 
 ```sql
+--verify_transform_worked.sql
 --Verify that your transformation worked
 SELECT X(Transform(Centroid(castAutomagic(geom)), 4236)) FROM prop_parcel_polygons LIMIT 10
 ```

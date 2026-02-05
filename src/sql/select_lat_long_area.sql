@@ -1,3 +1,4 @@
+--select_lat_long_area.sql
 /*
 Select all properties in 1000 block W 70th and show the
 latitude, longitude and area, with an example

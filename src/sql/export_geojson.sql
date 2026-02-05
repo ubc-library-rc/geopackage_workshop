@@ -1,3 +1,4 @@
+--export_geojson.sql
 /*
 Export a GeoJSON and a shapefile by creating a table, exporting, then deleting the table.
 Remember, SPATIALITE_SECURITY must be 'relaxed'

@@ -19,6 +19,8 @@ Going through this tutorial will *change* the database. If you want to do this t
 *2*{: .circle .circle-blue}To ensure that your Spatialite extensions are working properly, switch to the **Execute SQL** tab, and run the following SQL:
 
 ```sql
+--verify_geopackage.sql
+-- Verify that everything is installed
 SELECT spatialite_version() AS spatialite_version, HasGeoPackage() AS has_gpkg;
 ```
 Assuming your installation has been successful, you should see a line of data with two values like the following screenshot. Your spatialite\_version may vary.
@@ -40,6 +42,7 @@ These functions are called exactly the same way built-in functions are called. S
 For example:
 
 ```sql
+--built-in_function.sql
 --Built-in function
 SELECT length(data_licenses.name) as lname from data_licenses;
 ```
@@ -47,26 +50,28 @@ SELECT length(data_licenses.name) as lname from data_licenses;
 *5*{: .circle .circle-blue}Verify that Spatialite and GeoPackages work
 
 ```sql
+--verify_geopackage.sql
 -- Verify that everything is installed
 SELECT spatialite_version() AS spatialite_version, HasGeoPackage() AS has_gpkg;
 ```
 
-
 ```sql
+--enable_disable_modes.sql
 /*
 Different modes are available and can be enabled and disabled at will.
 */
-SELECT enableGpkgMode();
---SELECT disableGpkgMode();
---SELECT enableGpkgAmphibiousMode();
---SELECT disableGpkgAmphibiousMode();
+SELECT EnableGpkgMode();
+--SELECT DisableGpkgMode();
+--SELECT EnableGpkgAmphibiousMode();
+--SELECT DisableGpkgAmphibiousMode();
 ```
 
 You can always ensure that you've done what you think you've done:
 
 ```sql
+--get_modes.sql
 /*
-In case you forget what has been enabled, view the results like this.
+In case you forget what has been enabled, view the results like this
 */
 SELECT GetGpkgMode(), GetGpkgAmphibiousMode();
 ```

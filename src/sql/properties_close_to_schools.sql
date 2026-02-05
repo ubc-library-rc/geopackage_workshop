@@ -1,3 +1,4 @@
+--properties_close_to_schools.sql
 /*
 Select all properties within 200m of all schools
 */

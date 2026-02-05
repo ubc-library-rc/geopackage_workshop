@@ -1,3 +1,4 @@
+--select_within_distance_manually_entered_point.sql
 /*
 Select parcels within 250m distance of *manually entered* point
 and show the lat, long and area of the parcel

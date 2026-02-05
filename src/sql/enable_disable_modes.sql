@@ -1,3 +1,4 @@
+--enable_disable_modes.sql
 /*
 Different modes are available and can be enabled and disabled at will.
 */

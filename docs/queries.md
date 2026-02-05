@@ -16,12 +16,13 @@ If you have no knowledge of SQL, you may want to have a look at this [SQL tutori
 Here's a marginally useful query that shows the 3 westernmost parcels.
 
 ```sql
+--select_longitude.sql
 /*
 Select the centroid points of parcels and
 return longitude as degrees
 */
 SELECT *, X(Centroid(Transform(CastAutomagic(geom),4326))) AS long
-FROM prop_parcel_polygons ORDER BY long LIMIT 3;
+FROM prop_parcel_polygons LIMIT 3;
 ```
 
 Let's examine this in a little more detail. SQL, like written English, is evaluated from left to write. But because this is a computer language, not always.
@@ -51,6 +52,7 @@ You want only the lowest values (and remember, west is a negative number), so yo
 While the first example is helpful to give you an idea of how querying a GeoPackage works, it's not overly complex. Going a little further, maybe you need to find the latitude and longitudes of residences in a particular place, and find out how big the parcels are.
 
 ```sql
+--select_lat_long_area.sql
 /*
 Select all properties in 1000 block W 70th and show the
 latitude, longitude and area, with an example
@@ -63,7 +65,7 @@ Y(Centroid(Transform(CastAutomagic(geom),4326))) AS lat,
 Area(CastAutoMagic(geom)) AS area,
 Area(Transform(CastAutomagic(geom),4326)) AS badarea
 FROM prop_parcel_polygons
-WHERE civic_number LIKE '10__' AND streetname LIKE'W 70TH%';
+WHERE civic_number LIKE '10__' and streetname LIKE'W 70TH%';
 ```
 
 You may notice that when you run this query, in the first record **badarea** is showing as 3.3437730152941e-08 and all the others are similarly tiny. While properties have been getting smaller in the 21st century, it's unlikely that residential properties are available at a sub-atomic scale.
@@ -80,20 +82,21 @@ Note that **badarea** is defined as `Area(Transform(CastAutomagic(geom),4326))`.
 Imagine you are a researcher, and you're studying how many residences are are within a certain distance of a particular establishement. You have the point you're interested in, and you want to know what's within 250m.
 
 ```sql
+--select_within_distance_manually_entered_point.sql
 /*
 Select parcels within 250m distance of *manually entered* point
 and show the lat, long and area of the parcel
 */
 SELECT
 *,
-X(Centroid(Transform(CastAutomagic(geom),4326))) AS long,
-Y(Centroid(Transform(CastAutomagic(geom),4326))) AS lat,
-Area(CastAutomagic(geom)) AS area
+X(Centroid(Transform(CastAutomagic(geom),4326))) as long,
+Y(Centroid(Transform(CastAutomagic(geom),4326))) as lat,
+Area(CastAutoMagic(geom)) AS area
 FROM prop_parcel_polygons
 WHERE
 --Coordinates are entered into the MakePoint function
-DistanceWithin(CastAutomagic(geom), 
-    Transform(castAutomagic(MakePoint(-123.131457045205, 49.2082220977993, 4326)),3005), 250);
+distanceWithin(castAutoMagic(geom),
+	transform(castAutoMagic(MakePoint(-123.131457045205, 49.2082220977993, 4326)),3005), 250)
 ```
 Most of the statements should be familiar, but now there's a **WHERE** clause, which specifies the conditions. You can't specify the point just as an x,y coordinate pair, unfortunately.
 

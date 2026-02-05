@@ -1,3 +1,4 @@
+--update_geometry_from_select.sql
 /*
 This will *actually* do the update
 */

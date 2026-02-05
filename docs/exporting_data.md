@@ -11,6 +11,7 @@ Most of the time you will not be satisfied with performing a query and leaving i
 Let's use a query that you've already seen as a baseline for your exports.If you need more details, have a look back at the [slightly more advanced](queries_continued.html) page.
 
 ```sql
+--properties_close_to_particular_school.sql
 /*
 Select all properties within 200m a *particular* school
 and show the distance in metres
@@ -66,10 +67,34 @@ Although you didn't use a dedicated system like ArcGIS or QGIS to analyse your d
 
 Both ArcGIS and QGIS support Well-known Text(WKT). As we saw in the [slightly more advanced queries page](queries_continued.html), the key to exporting WKT is using the AsText function.So, this time instead of deleting the geometry, you can use a construction like this:
 
-`SELECT DISTINCT fid, AsText(castAutoMagic(prop_parcel_polygons.geom)) AS wkt_geom...`
+`AsText(CastAutomagic(prop_parcel_polygons.geom)) AS geom`.
 
- As a bonus, this doesn't involve using the **SPATIALITE_SECURITY** environment variable, so you don't have to relax any computer security.
-
+Here is the complete query so that you can try it out:
+```sql
+--export_as_wkt.sql
+/*
+Select all properties within 200m a *particular* school
+and show the distance in metres
+*/
+SELECT DISTINCT fid, AsText(CastAutomagic(prop_parcel_polygons.geom)), civic_number,
+	streetname, site_id,
+	DistanceWithin(Centroid(CastAutomagic(prop_parcel_polygons.geom)) AS geom, 
+		CastAutomagic(schools.geom), 200) AS within_200,
+	round(Distance(CastAutomagic(prop_parcel_polygons.geom), 
+			CastAutomagic(schools.geom))) AS distance_m,
+	SRID(prop_parcel_polygons.geom) AS SRID_geom,
+	SRID(schools.geom) AS SRID_school,
+	X(Centroid(Transform(CastAutomagic(prop_parcel_polygons.geom), 4326))) AS long_prop,
+	Y(Centroid(Transform(CastAutomagic(prop_parcel_polygons.geom), 4326))) AS lat_prop
+FROM prop_parcel_polygons
+JOIN (SELECT * FROM sd_39_schools AS schools 
+	WHERE schools.SCHOOL_NAME='Lord Byng Secondary') AS schools
+WHERE
+PtDistWithin(Centroid(CastAutomagic(prop_parcel_polygons.geom)),  
+	CastAutomagic(schools.geom), 200) = 1
+ORDER BY distance_m DESC;
+```
+You can export this exactly the same way as before, and the geometry in the **geom** field is plain text _and_ is readable by a GIS application.  As a bonus, this doesn't involve using the **SPATIALITE_SECURITY** environment variable, so you don't have to relax any computer security.
 
 Each dedicated GIS application will have different methods of reading WKT. However, it's usually not all that complicated, as this screenshot from QGIS demonstrates.
 
@@ -86,9 +111,10 @@ You can perform these exports using the functions `ExportGeoJSON2` and `ExportSH
 * The SPATIALITE_SECURITY environment variable must be set to 'relaxed'
 * Generally, exporting like this exports a whole *table*, not just a query. If you wish to export the results of a query, you must create a new table (with all that entails) and export that way. Also, it *cannot* be a temporary table — it must be a real one.
 * Tables can be created with the `CREATE TABLE AS SELECT` syntax.
-* Exporting this way inevitably runs to issues with geometry. While both Spatialite and GeoPackage are supported, the `Export` functions **only** work with Spatialite geometry, not GeoPackage, which is something omitted from the documentation. You will need to *not* be in GeoPackage Mode, and you will need to convert the geometry to Spatialite Geometry with `castAutoMagic`, then use the `RecoverGeometryColumn` function. Once you know this, it's not so bad. It's the finding out that's the hard part.
+* Exporting this way inevitably runs to issues with geometry. While both Spatialite and GeoPackage are supported, the `Export` functions **only** work with Spatialite geometry, not GeoPackage, which is something omitted from the documentation. You will need to *not* be in GeoPackage Mode, and you will need to convert the geometry to Spatialite Geometry with `CastAutomagic`, then use the `RecoverGeometryColumn` function. Once you know this, it's not so bad. It's the finding out that's the hard part.
 
 ```sql
+--export_geojson.sql
 /*
 Export a GeoJSON and a shapefile by creating a table, exporting, then deleting the table.
 Remember, SPATIALITE_SECURITY must be 'relaxed'

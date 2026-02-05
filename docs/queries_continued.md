@@ -30,6 +30,7 @@ However, you can also use a JOIN statement without a common element simply to ex
 If your data is all in one table, you may need to extract some data based on its content. You can use the **JOIN** statement here, but join it to nothing, just so you can extract an location.
 
 ```sql
+--select_within_distance_of_selection.sql
 /*
 Select properties within 500m of an address and
 display the distance in km rounded to two decimal points
@@ -37,13 +38,12 @@ display the distance in km rounded to two decimal points
 SELECT props.civic_number, props.streetname, 
 round(Distance(CastAutomagic(props.geom), CastAutomagic(target.geom))/1000, 2) AS distance_km
 FROM prop_parcel_polygons AS props
-JOIN
+JOIN 
 (SELECT geom, * FROM prop_parcel_polygons 
 WHERE 
 civic_number='1090' AND streetname LIKE 'W 70TH%' LIMIT 1 ) AS target
 WHERE
-Distance(CastAutoMagic(props.geom), CastAutomagic(target.geom))/1000 < .5;
-
+Distance(CastAutomagic(props.geom), CastAutomagic(target.geom))/1000 < .5;
 ```
 
 Starting from the middle **SELECT**
@@ -70,17 +70,18 @@ Most of the time you will be using data from multiple tables in your queries, be
 
 ### Distances from all schools
 ```sql
+--properties_close_to_schools.sql
 /*
 Select all properties within 200m of all schools
 */
 SELECT DISTINCT *, 
-PtDistWithin(Centroid(CastAutomagic(prop_parcel_polygons.geom)),  
-    castAutomagic(schools.geom), 200) AS within_200
+PtDistWithin(Centroid(CastAutomagic(prop_parcel_polygons.geom)), 
+	castAutomagic(schools.geom), 200) AS within_200
 FROM prop_parcel_polygons
 JOIN sd_39_schools AS schools
 WHERE
-PtDistWithin(centroid(CastAutomagic(prop_parcel_polygons.geom)),
-    castAutomagic(schools.geom), 200) = 1
+PtDistWithin(Centroid(CastAutomagic(prop_parcel_polygons.geom)), 
+	castAutomagic(schools.geom), 200) = 1
 ```
 
 Points of note in this query include:
@@ -89,12 +90,13 @@ Points of note in this query include:
 * The output contains two *geom** columns. You can get rid of that by actually specifying the columns you need instead of using `*` to select them all. Sadly, there is no way in straight SQL to specify "all columns but **schools.geom**". You must either specify a list of columns you need or take them all.
 
 
-
 ### Distance from a single point in another table
 
 Sometimes you are studying a particular place, so a whole table join is not desirable. In this case, you need all of the properties within 200m of Lord Byng school.
 
 ```sql
+
+--properties_close_to_particular_school.sql
 /*
 Select all properties within 200m a *particular* school
 and show the distance in metres
@@ -132,6 +134,7 @@ Up to this point, we have been using the centre point of a parcel. But you don't
 
 For example, using this query:
 ```sql
+--properties_close_to_perimeter_of_a_particular_school.sql
 /*
 Select all properties within 200m a *particular* school, 
 and show the distance in metres,
@@ -150,7 +153,7 @@ SELECT DISTINCT prop_parcel_polygons.fid,
 	Y(Centroid(Transform(CastAutomagic(prop_parcel_polygons.geom), 4326))) as lat_prop
 FROM prop_parcel_polygons
 --JOIN (SELECT * FROM sd_39_schools AS schools 
---    WHERE schools.SCHOOL_NAME='Lord Byng Secondary')AS schools
+--	  WHERE schools.SCHOOL_NAME='Lord Byng Secondary')AS schools
 JOIN (SELECT fid, geom FROM prop_parcel_polygons WHERE fid=66129) AS SCHOOLS
 WHERE
 DistanceWithin(CastAutomagic(prop_parcel_polygons.geom), CastAutomagic(schools.geom), 200) = 1

@@ -1,3 +1,4 @@
+--troubelshooting_create_geometry.sql
 /*
 If you ever delete your table or have problems creating a geometry column, have a look
 at the table gpkg_geometry_columns and make sure that there is not an entry already.

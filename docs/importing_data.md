@@ -25,6 +25,7 @@ This imports the data in the table, but the coordinates in it are not yet spatia
 If you've been following along, you can skip the top part of the SQL below (and it's commented out anyway) because you've already done it. Only execute the last statement. 
 
 ```sql
+--import_csv_data_and_make_geometry.sql
 /*You should have already performed these steps
 
 SELECT enableGpkgMode();
@@ -40,7 +41,7 @@ SELECT InitSpatialMetadata();
 
 -- Then, you need to add a geometry column
 */
-
+--Note that the projection is EPSG:3005
 SELECT gpkgAddGeometryColumn('sd_39_schools', 'geom', 'POINT', 0, 0, 3005);
 ```
 
@@ -55,6 +56,7 @@ Now that you have a column ready to accept the geometry, you need to create the 
 
 
 ```sql
+--lat_long_points_to_3005.sql
 /*
 Intermediate step showing how to add points and convert them to a different projection
 */
@@ -76,14 +78,14 @@ This is not technically required, but uou will make your life simpler if all of 
 Now that your data meets your exacting standards, you can write it to the **geom** column in the `sd_39_schools` table:
 
 ```sql
+--update_geometry_from_select.sql
 /*
 This will *actually* do the update
 */
 UPDATE sd_39_schools SET geom = geom_gpb 
 FROM 
 (
-SELECT rowid, Transform(CastAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, 
-        SCHOOL_LATITUDE, 4326)), 3005) 
+SELECT rowid, Transform(CastAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, SCHOOL_LATITUDE, 4326)), 3005) 
 	AS geom_gpb FROM sd_39_schools
  ) AS tmp	 
 WHERE sd_39_schools.rowid = tmp.rowid
@@ -107,6 +109,7 @@ Now your data is in the GeoPackage as spatially-aware data and you can use it to
 >Sometimes things don't go the way you would like, and you need to find a way to get back to the way they were. If, say, you delete your imported table because of problem, you may have problems with a new import. That's because remnants may still exist in the spatial metadata, notably `gpkg_geometry_columns`. The solution is to delete problematic records.
 >
 >```sql
+>--troubelshooting_create_geometry.sql
 >/*
 >If you ever delete your table or have problems creating a geometry column, have a look
 >at the table gpkg_geometry_columns and make sure that there is not an entry already.

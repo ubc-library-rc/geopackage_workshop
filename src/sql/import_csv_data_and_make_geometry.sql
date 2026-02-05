@@ -1,3 +1,4 @@
+--import_csv_data_and_make_geometry.sql
 /*You should have already performed these steps
 
 SELECT enableGpkgMode();
