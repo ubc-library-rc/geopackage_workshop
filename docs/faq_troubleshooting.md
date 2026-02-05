@@ -39,3 +39,7 @@ A discussion of this (although not related to this specific problem) is availabl
 Yes, you can parse JSON data with SQLite so you could extract the longitude and latitude points that way, but this is a GeoPackage tutorial. And having JSON with lat/long points included is a rarity. 
 
 The eagle-eyed may notice that the values in the JSON may not be exactly the same as those calculated using X() and Y(). This can happen for a number of reasons, including, but not limited to, the original coordinate system and transformations used and floating point accuracy. For a discussion of what the difference may mean, see this Stackexchange page: <https://gis.stackexchange.com/questions/8650/measuring-accuracy-of-latitude-and-longitude>{:target="_blank"}.
+
+### Why so much CastAutomagic()?
+
+GeoPackage was built on Spatialite, so it's not a uniform entity, and crucially they have different ways of storing geometry. CastAutomagic() theoretically ensures that the data is in the form that you need. If you're using it and your function doesn't produce the result you expect, try *removing* it, because it's designed to work with two different data types. If all the data types are the same, you don't need to use it.

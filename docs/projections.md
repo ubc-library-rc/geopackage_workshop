@@ -30,18 +30,25 @@ If you need to transform your coordinate systems, you *must* have a table called
 If the above command didn't work check to see if the `gpkg_spatial_ref_sys` and/or `spatial_ref_sys` table is there.
 
 ```sql
-SELECT * from sqlite_master WHERE name LIKE '%spatial%
+SELECT * from sqlite_master WHERE name LIKE '%spatial%'
 ```
 
 You will see a listing of all the spatial tables in your database. If what you want is not there, you must create it. Thankfully, this is easy.
 
+
 ```sql
-select InitSpatialMetadata();
+SELECT InitSpatialMetadata();
 ```
 The function creates any necessary tables, but they won't be visible in the schema viewer until you save and reopen the database. But it will still work even if the tables are not not visible. You can verify that the command worked by seeing if the tables are present, because they will be listed in the (hidden by default) `sqlite_master` table:
 
 Without the spatial metadata, coordinate transformations will not work!
 
+{: .note}
+>The `spatial_ref_sys` table isn't *technically* part of the geopackage standard, but it *is* required for a lot of the geographic transformations to work. It doesn't affect the functioning of the GeoPackage aside from adding a bunch of tables that are used for your calculations.
+>
+>GIS applications don't necessarily need this table (because they may do things another way), but you're not using a GIS application.
+>
+>You can see for yourself. If you don't run InitSpatialMetadata(), the rest of the examples won't work. And for those with a computery bent, you will see that you will get a message `unknown SRID: 3005	<no such table: spatial_ref_sys>` to stderr.
 
 ### Why projections are extremely important.
 
