@@ -16,7 +16,31 @@ This dataset is a geopackage made specifically for tutorial purposes, made from 
 {: .important}
 Going through this tutorial will *change* the database. If you want to do this tutorial again, make a copy of the database before using it. Alternately, if you know git, you can reset with git commands.
 
-*2*{: .circle .circle-blue}To ensure that your Spatialite extensions are working properly, switch to the **Execute SQL** tab, and run the following SQL:
+*2*{: .circle .circle-blue} In the **DB Schema** view (bottom right of the screenshot), you will notice that there are a terrifyingly large number of tables. **Do not panic**; this is normal. Almost all of them will be used by the extension itself and you will not be querying them directly. More specifically, you can (typically) not worry about Elementary Geometries, KNN2, SpatialIndex, geometry_columns\*, gpkg\*, rtree\*, spatial_ref\*, sql_statements_log, and sqlite_sequence. Not all of these files will be present in all GeoPackages, but a lot of them will.
+
+{: .note-title}
+>Functions
+>
+>As mentioned in the [introduction](what_is_a_geopackage.html), technically GeoPackage is a standard and Spatialite is used to read data from this standard. What this means, in practice, is that using the Spatialite adds an enormous variety of functions available through SQL that are not normally available using plain SQLite.
+>
+>These functions are called exactly the same way built-in functions are called. _SQL commands are not case-sensitive_. In this tutorial you may see various capitalizations. While perfect consistency is admirable everything was typed by hand. **select** vs  **SELECT** vs **SeLEct** doesn't affect functionality, but the latter should cause moral outrage. 
+>
+>Do not stress about capitalization in your own SQL, which you should, ideally be writing manually if you are learning. If you're using AI to generate your SQL for Spatialite, it will, at some point, be wrong, so your best option is to actually learn how it works.
+>
+>Digressions aside, this example the built-in function **length**, which returns the length of string of text:
+>
+>```sql
+>--built-in_function.sql
+>--Built-in function
+>SELECT length(streetname) AS lname FROM prop_parcel_polygons LIMIT 10;
+>```
+>Spatialite functions are called the same way, but they often have more than one parameter.
+>Built in functions are *always* available, but the Spatialite ones don't work unless your extensions are properly loaded.
+>
+>If you have every used a function (like in Excel) or done any programming none of this is likely surprising.
+
+
+*3*{: .circle .circle-blue}To ensure that your Spatialite extensions are working properly, switch to the **Execute SQL** tab, and run the following SQL:
 
 ```sql
 --verify_geopackage.sql
@@ -32,28 +56,9 @@ Ironically, you can't perform this step until you have a database open. It doesn
 
 **If you get an error or no result**: you may have not enabled the extensions properly, or, if you are anything like the author, just made a typo. If not the latter, verify that you have [installed the extension(s) properly](db_browser_setup.html).
 
-*3*{: .circle .circle-blue} In the **DB Schema** view (bottom right of the screenshot), you will notice that there are a terrifyingly large number of tables. **Do not panic**; this is normal. Almost all of them will be used by the extension itself and you will not be querying them directly. More specifically, you can (typically) not worry about Elementary Geometries, KNN2, SpatialIndex, geometry_columns\*, gpkg\*, rtree\*, spatial_ref\*, sql_statements_log, and sqlite_sequence. Not all of these files will be present in all GeoPackages, but a lot of them will.
+*4*{: .circle .circle-blue}
 
-*4*{: .circle .circle-blue}Spatialite Functions
-As mentioned in the [introduction](what_is_a_geopackage.html), technically GeoPackage is standard and Spatialite is used to read data from this standard. What this means, in practice, is that using the Spatialite adds an enormous variety of functions available through SQL that are not normally available using plain SQLite.
-
-These functions are called exactly the same way built-in functions are called. SQL commands are not case-sensitive. You may see various capitalizations of functions, etc. While I try to be consistent, it's all typed by hand, and if it works I'm not going to stress because it's **select** and not **SELECT**. And neither should you. If you're using AI to generate your SQL for Spatialite, it will, at some point, be wrong, so your best option is to actually learn how it works.
-
-For example:
-
-```sql
---built-in_function.sql
---Built-in function
-SELECT length(data_licenses.name) as lname from data_licenses;
-```
-
-*5*{: .circle .circle-blue}Verify that Spatialite and GeoPackages work
-
-```sql
---verify_geopackage.sql
--- Verify that everything is installed
-SELECT spatialite_version() AS spatialite_version, HasGeoPackage() AS has_gpkg;
-```
+Enabling GeoPackage mode is straightforward.
 
 ```sql
 --enable_disable_modes.sql
@@ -66,7 +71,7 @@ SELECT EnableGpkgMode();
 --SELECT DisableGpkgAmphibiousMode();
 ```
 
-You can always ensure that you've done what you think you've done:
+You can always ensure that you've done what you think you've done by getting an output of modes.
 
 ```sql
 --get_modes.sql
@@ -75,6 +80,7 @@ In case you forget what has been enabled, view the results like this
 */
 SELECT GetGpkgMode(), GetGpkgAmphibiousMode();
 ```
+
 Generally speaking, start with enableGpkgMode() to ensure maximum compatibility. Over the course of time, you may find that pure GeoPackage mode can't be enabled. This is because of the intermingling of functions between Spatialite and the Geopackage standard. It's not an enormous problem, and you can enable the amphibious mode if you have to and things will still work just fine.
 
 {: .note}
