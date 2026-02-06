@@ -13,7 +13,7 @@ If you have no knowledge of SQL, you may want to have a look at this [SQL tutori
 
 ## Example 1: Show the longitude of parcels
 
-Here's a marginally useful query that shows the 3 westernmost parcels.
+Here's a marginally useful query that shows the longitude of three property parcels.
 
 ```sql
 --select_longitude.sql
@@ -22,7 +22,9 @@ Select the centroid points of parcels and
 return longitude as degrees
 */
 SELECT *, X(Centroid(Transform(CastAutomagic(geom),4326))) AS long
-FROM prop_parcel_polygons LIMIT 3;
+FROM prop_parcel_polygons 
+--ORDER BY long
+LIMIT 3;
 ```
 
 Let's examine this in a little more detail. SQL, like written English, is evaluated from left to write. But because this is a computer language, not always.
@@ -37,14 +39,17 @@ The key here is `X(Centroid(Transform(CastAutomagic(geom),4326)))`. This is a se
 * X()
 
 
-CastAutomagic transforms the geometry so that it will work *regardless* of whether it's GeoPackage geometry or Spatialite geometry. That output is passed to Transform, which converts it EPSG:4326 projection (WGS 84, or latitude/longitude unprojected data). That is then passed to the Centroid function, which calculates the Centroid or centre point of the polygon. Finally, the x dimension (or longitude) is extracted from the centroid.
+CastAutomagic transforms the geometry to Spatialite geometry, even if the input is GeoPackage geometry. **The overwhelming majority of functions which process geometry take Spatialite geometry**. That output is passed to Transform, which converts it EPSG:4326 projection (WGS 84, or latitude/longitude unprojected data). That is then passed to the Centroid function, which calculates the Centroid or centre point of the polygon. Finally, the x dimension (or longitude) is extracted from the centroid.
 
-Next is **AS**, which is your friend while using Spatialite. The AS clause will rename the column to **long**, instead of using its default value of **X(Centroid(Transform(CastAutomagic(geom),4326)))**, which I think we can all agree is a terrible name for a column.
+Next is **AS**, which will become your friend as you learn to use GeoPackages. The AS clause will rename the column to **long**, instead of using its default value of **X(Centroid(Transform(CastAutomagic(geom),4326)))**, which I think we can all agree is a terrible name for a column.
 
 You're selecting data **FROM** a single table, in this case *prop\_parcel\_polygons*.
 
-You want only the lowest values (and remember, west is a negative number), so you **ORDER BY** long. And finally, you only want the first three records, so you use **LIMIT 3**.
+Finally, you want only three values, so you **LIMIT 3**.
 
+If, say, you wanted the westernmost parcels, you can do this easily, by uncommenting the **ORDER BY** clause. This will take much longer, because it has to go through the entire result list and sort it by **long**. If your computer is a potato, it could take a *lot* longer. 
+
+Remember that west is a negative number (ie, east of the 0 degrees), so the westernmost parcels have the lowest longitude value. 
 
 
 ## Example 2: Area calculations
@@ -96,7 +101,7 @@ FROM prop_parcel_polygons
 WHERE
 --Coordinates are entered into the MakePoint function
 distanceWithin(castAutoMagic(geom),
-	transform(castAutoMagic(MakePoint(-123.131457045205, 49.2082220977993, 4326)),3005), 250)
+	Transform(castAutoMagic(MakePoint(-123.131457045205, 49.2082220977993, 4326)),3005), 250)
 ```
 Most of the statements should be familiar, but now there's a **WHERE** clause, which specifies the conditions. You can't specify the point just as an x,y coordinate pair, unfortunately.
 
@@ -107,6 +112,6 @@ Like other functions, work from the centre outwards:
 * Transform(). The second parameter of the function (3005) converts the coordinates to EPSG:3005 (BC Albers), which, if you recall, was found using SRID near the beginning of the tutorial. 
 * DistanceWithin(). The first parameter is geometry from the query (ie, the parcel), the second parameter is the giant chain from above, and the third, 250, is the maximum distance in metres. Note that this is split up on two lines. It's not necessary to have everything on one line as long as you keep all of your parentheses and commas in order.
 
-DistanceWithin returns a boolean value, true or false. So if the statement is true, then the query returns those elements.
+DistanceWithin() returns a boolean value, true or false. So if the statement is true, then the query returns those elements.
 
 Success! But although it works, you will note that it only uses data within a ready made table. [But what if you have your own data?](importing_data.html)

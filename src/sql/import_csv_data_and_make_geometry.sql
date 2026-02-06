@@ -3,7 +3,7 @@
 
 SELECT enableGpkgMode();
 SELECT getGpkgMode();
--- And it should be in Geopackage mode
+-- And it should be in GeoPackage mode
 
 SELECT InitSpatialMetadata();
 --so you can do transformations/

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Projections and Spatial References 
+title: Projections and spatial references 
 nav_order: 12
 ---
 # The earth is not flat 
@@ -49,6 +49,17 @@ Without the spatial metadata, coordinate transformations will not work!
 >GIS applications don't necessarily need this table (because they may do things another way), but you're not using a GIS application.
 >
 >You can see for yourself. If you don't run InitSpatialMetadata(), the rest of the examples won't work. And for those with a computery bent, you will see that you will get a message `unknown SRID: 3005	<no such table: spatial_ref_sys>` to stderr.
+>
+>Here is a quirk about this whole procedure. If you have just used `InitSpatialMetata()` and run `SELECT getGpkgMode()`, it will return 1.
+>
+>If you close the database, reopen it, and try:
+>
+>```sql
+>SELECT enableGpkgMode();
+>SELECT GetGpkgMode();
+>```
+>You will get 0. Why? Because the `spatial_ref_sys` table exists and you can't run in pure GeoPackage mode. But that doesn't matter because the functions can translate them anyway.
+
 
 ### Why projections are extremely important.
 

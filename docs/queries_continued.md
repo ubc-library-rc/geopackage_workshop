@@ -87,7 +87,7 @@ PtDistWithin(Centroid(CastAutomagic(prop_parcel_polygons.geom)),
 Points of note in this query include:
 
 * Using the centroid of the property parcel for sistance calculations
-* The output contains two *geom** columns. You can get rid of that by actually specifying the columns you need instead of using `*` to select them all. Sadly, there is no way in straight SQL to specify "all columns but **schools.geom**". You must either specify a list of columns you need or take them all.
+* The output contains two **geom** columns. You can get rid of that by actually specifying the columns you need instead of using `*` to select them all. Sadly, there is no way in straight SQL to specify "all columns but **schools.geom**". You must either specify a list of columns you need or take them all.
 
 
 ### Distance from a single point in another table

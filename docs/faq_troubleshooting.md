@@ -42,4 +42,12 @@ The eagle-eyed may notice that the values in the JSON may not be exactly the sam
 
 ### Why so much CastAutomagic()?
 
-GeoPackage was built on Spatialite, so it's not a uniform entity, and crucially they have different ways of storing geometry. CastAutomagic() theoretically ensures that the data is in the form that you need. If you're using it and your function doesn't produce the result you expect, try *removing* it, because it's designed to work with two different data types. If all the data types are the same, you don't need to use it.
+GeoPackage was built on Spatialite, so it's not a uniform entity, and crucially they have different ways of storing geometry. **The majority of functions use Spatialite geomtery as an input**. CastAutomagic() returns Spatialite geometry regardless of the input. This theoretically ensures that the data is in the form that you need. If you're using it and your function doesn't produce the result you expect, try *removing* it, because it's designed to work with two different data types. If all the data types are the same, you don't need to use it.
+
+If you need GeoPackage geometry, because you're writing it to a table, convert it back with AsGPB().
+
+Realistically, this also means that if you forget to set the mode, or it doesn't work, ultimately it doesn't matter because you have complete control of the inputs.
+
+### GpkgAmphibiousMode()?
+
+There are quite a few modes of operation for Spatialite. Amphibious mode is a rarely used, largely deprecated mode which (should) allow both Spatialite and GeoPackage modes to function. However, because it's largely deprecated and poorly documented, you may wish to use other methods instead, such as CastAutomagic() or AsGPB().

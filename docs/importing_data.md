@@ -30,7 +30,7 @@ If you've been following along, you can skip the top part of the SQL below (and 
 
 SELECT enableGpkgMode();
 SELECT getGpkgMode();
--- And it should be in Geopackage mode
+-- And it should be in GeoPackage mode
 
 SELECT InitSpatialMetadata();
 --so you can do transformations/
@@ -60,7 +60,8 @@ Now that you have a column ready to accept the geometry, you need to create the 
 /*
 Intermediate step showing how to add points and convert them to a different projection
 */
-SELECT Transform(castAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, SCHOOL_LATITUDE, 4326)), 3005) 
+SELECT AsGPB(Transform(castAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, 
+             SCHOOL_LATITUDE, 4326)), 3005)) 
 	FROM sd_39_schools;
 ```
 
@@ -68,7 +69,8 @@ This works exactly as the examples earlier. Working from the centre out:
 
 * gpkgMakePoint() takes two coordinates and a projection, in this case WGS84 longitude and latitude
 * castAutomagic() performs its magic
-* Transform() converts it to EPSG:3005, or BC Albers projection.
+* Transform() converts it to EPSG:3005, or BC Albers projection. Transform is *not* a GeoPackage operation, it's a Spatialite one, so it returns a Spatialite blob
+* AsGPB() turns it back into GeoPackage geometry
 
 That last Transform() command is the kicker. It transforms your data from lat/long coordinated to BC Albers. That means that you now have easy access to *both* lat/long as degrees (because they're attributes in the table) and the geometry as BC Albers. And your imported data matches the projection of the rest of the data. 
 
@@ -86,7 +88,8 @@ UPDATE sd_39_schools SET geom = geom_gpb
 FROM 
 (
 SELECT rowid, 
-	Transform(CastAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, SCHOOL_LATITUDE, 4326)), 3005) 
+	AsGPB(Transform(CastAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, 
+          SCHOOL_LATITUDE, 4326)), 3005)) 
 	AS geom_gpb FROM sd_39_schools
  ) AS tmp	 
 WHERE sd_39_schools.rowid = tmp.rowid
@@ -100,6 +103,8 @@ Again, working through the query from the centre outward:
 * Update the `sd_39_schools` table, setting the **geom** column to **geom_gpb** from your SELECT statement. 
 * The **WHERE** clause ensures that you're matching the **rowids**.
 
+{: .important}
+If you are *writing** geometry to a GeoPackage, you want to ensure that you are using the correct standard. You can see this because of AsGPB(). If you are unsure of what data you are getting, you can check it with isValidGPB().
 
 Now your data is in the GeoPackage as spatially-aware data and you can use it to work with any other table in your database.
 

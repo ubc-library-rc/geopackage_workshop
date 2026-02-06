@@ -8,10 +8,11 @@ nav_order: 10
 
 We will first start off by understanding how to use an already existing GeoPackage database. This is not a tutorial for the [DB Browser](https://sqlitebrowser.org) interface; it assumes you can use the interface for basic operations like entering SQL, etc. All of the functions are available via reasonably obvious buttons or through menus.
 
-*1*{: .circle .circle-blue} Open an existing geopackage database with File/Open; the images and examples in this tutorial use a geopackage called `property-parcel-polygons.gpkg`, which, if you have cloned the Github repository, is at `src/data`. 
+*1*{: .circle .circle-blue} Open an existing GeoPackage database with File/Open; the images and examples in this tutorial use a GeoPackage called `property-parcel-polygons.gpkg`, which is available at <https://github.com/ubc-library-rc/geopackage_workshop/blob/main/src/data/property-parcel-polygons.gpkg>"
+
 
 {: .note}
-This dataset is a geopackage made specifically for tutorial purposes, made from [Parcel Map BC](https://catalogue.data.gov.bc.ca/dataset/parcelmap-bc-parcel-polygons-ogl){:target="_blank"}, data, but limited to Vancouver, BC (ie, cropped to the Vancouver Census Metropolitan Area).
+This dataset is a GeoPackage made specifically for tutorial purposes, made from [Parcel Map BC](https://catalogue.data.gov.bc.ca/dataset/parcelmap-bc-parcel-polygons-ogl){:target="_blank"}, data, but limited to Vancouver, BC (ie, cropped to the Vancouver Census Metropolitan Area).
 
 {: .important}
 Going through this tutorial will *change* the database. If you want to do this tutorial again, make a copy of the database before using it. Alternately, if you know git, you can reset with git commands.
@@ -78,10 +79,10 @@ You can always ensure that you've done what you think you've done by getting an 
 /*
 In case you forget what has been enabled, view the results like this
 */
-SELECT GetGpkgMode(), GetGpkgAmphibiousMode();
+SELECT GetGpkgMode();
 ```
 
-Generally speaking, start with enableGpkgMode() to ensure maximum compatibility. Over the course of time, you may find that pure GeoPackage mode can't be enabled. This is because of the intermingling of functions between Spatialite and the Geopackage standard. It's not an enormous problem, and you can enable the amphibious mode if you have to and things will still work just fine.
+You may note in the example above, there are other modes (like GpkgAmphibious mode). For a discussion of this please see the [FAQ](faq_troubleshooting.html)
 
 {: .note}
 This is actually the case with the sample database; if you try you will see that GetGpkgMode always returns 0. This is because it was laboriously converted to a GeoPackage manually for the purposes of this tutorial.
