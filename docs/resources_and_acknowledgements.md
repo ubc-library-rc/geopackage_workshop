@@ -9,10 +9,10 @@ nav_order: 50
 - [SQLite](https://sqlite.org/){:target="_blank"}
 - [DB Browser for SQLite](https://sqlitebrowser.org/){:target="_blank"}
 - [Spatialite](https://www.gaia-gis.it/fossil/libspatialite/index){:target="_blank"}
-    - [Spatialite functions list](https://www.gaia-gis.it/gaia-sins/spatialite-sql-5.1.0.html) (v5.1.0){:target="_blank"}
-- [sqlite3](https://docs.python.org/3/library/sqlite3.html) library for Python{:target="_blank"}
-- [RSQlite](https://rsqlite.r-dbi.org/) library for R{:target="_blank"}
-- [Understanding Map Projections](https://content.esri.com/support/documentation/ao_/697understanding_map_projections.pdf) (PDF){:target="_blank"}
+    - [Spatialite functions list](https://www.gaia-gis.it/gaia-sins/spatialite-sql-5.1.0.html){:target="_blank"} (v5.1.0)
+- [sqlite3](https://docs.python.org/3/library/sqlite3.html){:target="_blank"} library for Python
+- [RSQlite](https://rsqlite.r-dbi.org/){:target="_blank"} library for R
+- [Understanding Map Projections](https://content.esri.com/support/documentation/ao_/697understanding_map_projections.pdf){:target="_blank"} (PDF)
 - [EPSG Spatial References](https://spatialreference.org/){:target="_blank"}
 
 <details markdown="block">
