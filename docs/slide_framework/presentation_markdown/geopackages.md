@@ -12,6 +12,6 @@ Speaker note 1
 ---
 ## Return to the source of all things 
 The circle is complete
-*  [GeoPackages, or GIS without GIS](../../)
+*  [GeoPackages, or GIS without GIS](../)
 
 
