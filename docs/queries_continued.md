@@ -19,7 +19,7 @@ Joins connect two tables (or queries) in some manner. If you have two tables, it
 * Showing all element from the second table and and any common elements from the first. This is a **RIGHT JOIN**. If there are no elements from the first table, they will be displayed as nulls.
 * Showing everything. **FULL OUTER JOIN**. Everything will be shown, and if there is no data then the value will be null.
 
-![Join types](../assets/images/sql_join_types.png)
+![Join types](assets/images/sql_join_types.png)
 
 Normally a join will specify the column element. For example, if you have tables A and B and their *id* fields are the same, this query, `SELECT * FROM A INNER JOIN B ON A.id = B.id` will select the common elements.
 
