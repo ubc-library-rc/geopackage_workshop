@@ -60,6 +60,8 @@ Without the spatial metadata, coordinate transformations will not work!
 >SELECT GetGpkgMode();
 >```
 >You will get 0. Why? Because the `spatial_ref_sys` table exists and you can't run in pure GeoPackage mode. But that doesn't matter because the functions can translate them anyway.
+>
+>This is important, because when you **successfully** are able to EnableGpkgMode(), transformations (like Transform()) return GeoPackage geometry. When you *can't*, you have use the AsGPB() function to force it to happen.
 
 
 ### Why projections are extremely important.

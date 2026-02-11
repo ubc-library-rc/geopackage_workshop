@@ -6,6 +6,32 @@ nav_order: 35
 
 ## Frequently asked questions & troubleshooting
 
+### The trouble with EnableGpkgMode()
+
+You can only *successfully* run EnableGpkgMode(), that is, run EnableGpkgMode() and subsequently GetGpkgMode() and get a successful result if you have either never run InitSpatialMetadata() or you have, but *you have not closed the database since*. 
+
+Enable GpkgMode() forces pure Spatialite functions (like Transform()) to return GeoPakage geometry instead of the default Spatialite geometry. But if you cannot enable it, geometry will be returned as Spatialite geometry, requiring you to use the AsGPB() function to convert it to GeoPackage geometry.
+
+Why does this happen?  Because we are using Spatialite functions which require a Spatialite table, the creation of the table used for coordinate transformations makes the datatabase not a *pure* GeoPackage database, so when you open it after the first time you can't enable GeoPackage mode. 
+
+Why doesn't this happen after you run InitSpatialMetadata()? This is a mystery known only to the person who programmed it. 
+
+That seems like a not-very-big issue, but if you pass GeoPackage geometry to AsGPB(), it returns **nothing**. 
+
+If you are planning to write data, *always* check to see if:
+* you get data out
+* and that it is valid GeoPackage geometry, by using IsValidGPB()
+
+This may help:
+
+|Can EnableGpkgMode()| InitSpatialMetadata() has been run|Database closed and reopened| Geometry return type|
+|--------------------|-----------------------------------|---------------------|
+|Yes|No|Either|GeoPackage|
+|Yes|Yes|No|GeoPackage|
+|No|Yes|Yes|Spatialite|
+
+
+
 ### My query apparently runs without error, but the window displays no results
 
 

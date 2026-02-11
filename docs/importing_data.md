@@ -60,8 +60,13 @@ Now that you have a column ready to accept the geometry, you need to create the 
 /*
 Intermediate step showing how to add points and convert them to a different projection
 */
-SELECT AsGPB(Transform(castAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, 
-             SCHOOL_LATITUDE, 4326)), 3005)) 
+--Note; whether or not you need AsGPB() depends on whether or not you've opened
+--or closed the database!
+--SELECT AsGPB(Transform(castAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, 
+--			 SCHOOL_LATITUDE, 4326)), 3005)) 
+--	FROM sd_39_schools;
+SELECT Transform(castAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, 
+			 SCHOOL_LATITUDE, 4326)), 3005)
 	FROM sd_39_schools;
 ```
 
@@ -82,14 +87,18 @@ Now that your data meets your exacting standards, you can write it to the **geom
 ```sql
 --update_geometry_from_select.sql
 /*
-This will *actually* do the update
+This will *actually* do the update. Again, whether or not you need
+AsGPB() will depend on whether you have used InitSpatialMetadata()
+and reopened the database.
 */
 UPDATE sd_39_schools SET geom = geom_gpb 
 FROM 
 (
 SELECT rowid, 
-	AsGPB(Transform(CastAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, 
-          SCHOOL_LATITUDE, 4326)), 3005)) 
+	--AsGPB(Transform(CastAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, 
+	--	  SCHOOL_LATITUDE, 4326)), 3005)) 
+	Transform(CastAutomagic(gpkgMakePoint(SCHOOL_LONGITUDE, 
+		  SCHOOL_LATITUDE, 4326)), 3005)
 	AS geom_gpb FROM sd_39_schools
  ) AS tmp	 
 WHERE sd_39_schools.rowid = tmp.rowid

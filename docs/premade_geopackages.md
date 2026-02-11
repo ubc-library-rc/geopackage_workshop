@@ -6,12 +6,17 @@ nav_order: 12
 
 ## Using premade GeoPackages
 
-We will first start off by understanding how to use an already existing GeoPackage database. This is not a tutorial for the [DB Browser](https://sqlitebrowser.org) interface; it assumes you can use the interface for basic operations like entering SQL, etc. All of the functions are available via reasonably obvious buttons or through menus.
-
-*1*{: .circle .circle-blue} Open an existing GeoPackage database with File/Open; the images and examples in this tutorial use a GeoPackage called `property-parcel-polygons.gpkg`, which is available at <https://github.com/ubc-library-rc/geopackage_workshop/blob/main/src/data/property-parcel-polygons.gpkg>. 
+For the purposes of this tutorial, we'll assume some things. Imagine that you are are researcher and you're examining Vancouver, BC properties and you wish to understand what and where they are and how they relate to schools in Vancouver's School District 39. You have managed to obtain both property boundaries and school information.
 
 {: .note}
-This dataset is a GeoPackage made specifically for tutorial purposes, made from [Parcel Map BC](https://catalogue.data.gov.bc.ca/dataset/parcelmap-bc-parcel-polygons-ogl){:target="_blank"}, data, but limited to Vancouver, BC (ie, cropped to the Vancouver Census Metropolitan Area).
+All of the data is available for download here: <https://github.com/ubc-library-rc/geopackage_workshop/blob/main/src/data/>. The files used in this tutorial are `property-parcel-polygons.gpkg` and `sd_39_schools.csv`. There's also a file called `property-parcel-polygons-with-schools.gpkg` which has the school data preloaded.
+
+We will first start off by understanding how to use an already existing GeoPackage database. This is not a tutorial for the [DB Browser](https://sqlitebrowser.org) interface; it assumes you can use the interface for basic operations like entering SQL, etc. All of the functions are available via reasonably obvious buttons or through menus.
+
+*1*{: .circle .circle-blue} Open an existing GeoPackage database with File/Open, in this case `property-parcel-polygons.gpkg`. 
+
+{: .note}
+This dataset is a GeoPackage made specifically for tutorial purposes, made from [Parcel Map BC](https://catalogue.data.gov.bc.ca/dataset/parcelmap-bc-parcel-polygons-ogl){:target="_blank"} data, but limited to Vancouver, BC (ie, cropped to the Vancouver Census Metropolitan Area).
 
 {: .important}
 Going through this tutorial will *change* the database. If you want to do this tutorial again, make a copy of the database before using it. Alternately, if you know git, you can reset with git commands.

@@ -49,4 +49,8 @@ Specifically:
 
 While these databases can be opened and used in a geographic information system such as QGIS or ArcGIS, these types of applications have very steep learning curves. **Using a dedicated GIS application is not required** to access the spatial features of a GeoPackage. If you need to perform some basic analysis, there may not be any reason to learn a GIS application, because the spatial operations are available via SQL (Structured Query Language).
 
-Of course, if you want to do all of this, the first step is to [install everything](db_browser_setup.html).
+The relationship between SQLite, Spatialite and GeoPackage can be summarized in this handy Venn diagram. If you remember anything, remember this:
+
+![SQLite relationships](assets/images/spatialite_venn.png)
+
+Now that the relationship between the parts is clear, the first step is to [install everything](db_browser_setup.html).
