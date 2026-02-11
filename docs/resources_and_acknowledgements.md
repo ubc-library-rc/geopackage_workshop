@@ -3,6 +3,7 @@ layout: default
 title: Resources and acknowledgements
 nav_order: 50
 ---
+
 ## Useful links and resources
 
 - [SQL Primer](https://www.w3schools.com/sql/default.asp){:target="_blank"}

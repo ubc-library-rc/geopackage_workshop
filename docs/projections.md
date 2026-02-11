@@ -1,15 +1,16 @@
 ---
 layout: default
 title: Projections and spatial references 
-nav_order: 12
+nav_order: 10
 ---
-# The earth is not flat 
+
+## The earth is not flat 
 
 Although the earth is round(ish), the way GeoPackages/Spatialite (and really almost all geographic software) works is by calculating things in (largely) two dimensions. This means that the sphere is flattened out, like taking an orange, unpeeling it (technically an optional step), and making it flat. This has an effect on calculations, because doing this means that not all of distance, area and shape can be preserved at the same time. Differences may be negligible if you're examining small areas, but much more pronounced for large areas. 
 
 The correspondence between the points on the intact orange and and the flattened orange defines the projection/spatial reference system.
 
-## Displaying and working with projections
+### Displaying and working with projections
 
 You can see what projection your data layer has by a simple commmand. "SRID" seems an unintuitive abbreviation until you realize it stands for "spatial reference identification".
 
@@ -74,7 +75,7 @@ If you want to relate spatial attributes between digital objects, they need to u
 ```sql
 --reproject_geometry.sql
 -- Reproject geometry to EPSG:4326 (WGS 84)
-SELECT Transform(castAutomagic(geom), 4236) FROM prop_parcel_polygons LIMIT 4;
+SELECT Transform(castAutomagic(geom), 4326) FROM prop_parcel_polygons LIMIT 4;
 ```
 
 This will transform the geometry form one projection to another. When you run this query, you can't tell though, because it's just outputting a binary blob. But trust me, you have. But trust is in short supply these days.
@@ -82,7 +83,7 @@ This will transform the geometry form one projection to another. When you run th
 ```sql
 --verify_transform_worked.sql
 --Verify that your transformation worked
-SELECT X(Transform(Centroid(castAutomagic(geom)), 4236)) FROM prop_parcel_polygons LIMIT 10
+SELECT X(Transform(Centroid(castAutomagic(geom)), 4326)) FROM prop_parcel_polygons LIMIT 10
 ```
 
 You may note the "centroid" portion. The parcel polygons are, well, polygons, so they don't have single x (or longitude) value. This demonstration took the x-value of the centre point. And if if still doesn't make any sense the [queries](queries.md) page goes into more detail.

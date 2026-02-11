@@ -1,15 +1,14 @@
 ---
 layout: default
 title: Using DB Browser with premade GeoPackages
-nav_order: 10
+nav_order: 12
 ---
 
-# Using premade GeoPackages
+## Using premade GeoPackages
 
 We will first start off by understanding how to use an already existing GeoPackage database. This is not a tutorial for the [DB Browser](https://sqlitebrowser.org) interface; it assumes you can use the interface for basic operations like entering SQL, etc. All of the functions are available via reasonably obvious buttons or through menus.
 
-*1*{: .circle .circle-blue} Open an existing GeoPackage database with File/Open; the images and examples in this tutorial use a GeoPackage called `property-parcel-polygons.gpkg`, which is available at <https://github.com/ubc-library-rc/geopackage_workshop/blob/main/src/data/property-parcel-polygons.gpkg>"
-
+*1*{: .circle .circle-blue} Open an existing GeoPackage database with File/Open; the images and examples in this tutorial use a GeoPackage called `property-parcel-polygons.gpkg`, which is available at <https://github.com/ubc-library-rc/geopackage_workshop/blob/main/src/data/property-parcel-polygons.gpkg>. 
 
 {: .note}
 This dataset is a GeoPackage made specifically for tutorial purposes, made from [Parcel Map BC](https://catalogue.data.gov.bc.ca/dataset/parcelmap-bc-parcel-polygons-ogl){:target="_blank"}, data, but limited to Vancouver, BC (ie, cropped to the Vancouver Census Metropolitan Area).

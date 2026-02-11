@@ -4,7 +4,7 @@ nav_order: 1.1
 title: Land acknowledgement 
 parent: Introduction
 ---
-# Land acknowledgement
+## Land acknowledgement
 
 We'd like to acknowledge the Indigenous lands where we are located. The UBC Vancouver campus is located on the traditional, ancestral, and unceded territory of the xʷməθkʷəy̓əm (Musqueam), səlilwətaɬ (Tsleil-Waututh), and Skwxwú7mesh-ulh Temíx̱w (Squamish) peoples.
 

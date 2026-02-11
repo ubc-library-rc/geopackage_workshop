@@ -3,7 +3,7 @@ layout: default
 title: Basic queries 
 nav_order: 15 
 ---
-# Basic queries
+## Basic queries
 
 Technically, the commands from  [projections](projections.md) page constitute a SQL query. But as queries go, they didn't produce a lot of data that would be useful in a real-life situation besides verifying that the software worked. 
 
@@ -11,7 +11,7 @@ A SQL query is normally designed to extract some sort of pertinent information f
 
 If you have no knowledge of SQL, you may want to have a look at this [SQL tutorial](https://www.w3schools.com/sql/default.asp). The following sections and pages will mostly focus on Spatialite/GeoPackage specific language or less-common SQL.
 
-## Example 1: Show the longitude of parcels
+### Example 1: Show the longitude of parcels
 
 Here's a marginally useful query that shows the longitude of three property parcels.
 
@@ -52,7 +52,7 @@ If, say, you wanted the westernmost parcels, you can do this easily, by uncommen
 Remember that west is a negative number (ie, east of the 0 degrees), so the westernmost parcels have the lowest longitude value. 
 
 
-## Example 2: Area calculations
+### Example 2: Area calculations
 
 While the first example is helpful to give you an idea of how querying a GeoPackage works, it's not overly complex. Going a little further, maybe you need to find the latitude and longitudes of residences in a particular place, and find out how big the parcels are.
 
@@ -82,7 +82,7 @@ Note that **badarea** is defined as `Area(Transform(CastAutomagic(geom),4326))`.
 **This is why it's important to use the right projection for your calculations**. While this example has an obvious error, it's not always so obvious that something is wrong, so construct your queries carefully.
 
 
-## Example 3: Properties within 250m of a point
+### Example 3: Properties within 250m of a point
 
 Imagine you are a researcher, and you're studying how many residences are are within a certain distance of a particular establishement. You have the point you're interested in, and you want to know what's within 250m.
 
@@ -107,7 +107,7 @@ Most of the statements should be familiar, but now there's a **WHERE** clause, w
 
 Like other functions, work from the centre outwards:
 
-* MakePoint() takes three parameters. First is the x or longitude value, the second the y or latitude value. The 4236 tells you that it's in the WGS84 coordinate system (lat/long).
+* MakePoint() takes three parameters. First is the x or longitude value, the second the y or latitude value. The 4326 tells you that it's in the WGS84 coordinate system (lat/long).
 * CastAutomagic() ensures that the coordinates will be parsed correctly when you pass it to...
 * Transform(). The second parameter of the function (3005) converts the coordinates to EPSG:3005 (BC Albers), which, if you recall, was found using SRID near the beginning of the tutorial. 
 * DistanceWithin(). The first parameter is geometry from the query (ie, the parcel), the second parameter is the giant chain from above, and the third, 250, is the maximum distance in metres. Note that this is split up on two lines. It's not necessary to have everything on one line as long as you keep all of your parentheses and commas in order.

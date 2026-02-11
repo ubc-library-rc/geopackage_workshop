@@ -4,13 +4,13 @@ title: More advanced queries
 nav_order: 25
 ---
 
-# Slightly more advanced queries
+## Slightly more advanced queries
 
 If you're working with geographic data, it's not very common to be querying your data using geometry that you've entered manually, which is why we added the school information during the [import data](importing_data.html) step. 
 
 When you're working with tables in that manner, you're almost certainly going to want data from _another_ table based on your criteria. To do this, you will need to join your tables in some manner. SQL calls the linking of data in this way a **JOIN**, unsurprisingly.
 
-## Types of joins
+### Types of joins
 
 Joins connect two tables (or queries) in some manner. If you have two tables, it's possible to link them in different ways.
 
@@ -25,7 +25,7 @@ Normally a join will specify the column element. For example, if you have tables
 
 However, you can also use a JOIN statement without a common element simply to extract a piece of data you need. That is, the *ON* statement is optional, and not using it will produce the cartesian product. That is, every row from the first table with every row from the second.
 
-## Querying within a single table 
+### Querying within a single table 
 
 If your data is all in one table, you may need to extract some data based on its content. You can use the **JOIN** statement here, but join it to nothing, just so you can extract an location.
 
@@ -63,12 +63,12 @@ Starting from the middle **SELECT**
 >There may be more than one property with the same street address. For example apartment buildings may have many units which share an address.
 
 
-## Querying using your imported data
+### Querying using your imported data
 
 Most of the time you will be using data from multiple tables in your queries, because if you're doing any analysis you would have brought in your own data, like `sd_39_schools`. The process is very similar to above, except this time you can use the table directly rather than a **SELECT** statement.
 
 
-### Distances from all schools
+#### Distances from all schools
 ```sql
 --properties_close_to_schools.sql
 /*
@@ -86,11 +86,11 @@ PtDistWithin(Centroid(CastAutomagic(prop_parcel_polygons.geom)),
 
 Points of note in this query include:
 
-* Using the centroid of the property parcel for sistance calculations
+* Using the centroid of the property parcel for distance calculations
 * The output contains two **geom** columns. You can get rid of that by actually specifying the columns you need instead of using `*` to select them all. Sadly, there is no way in straight SQL to specify "all columns but **schools.geom**". You must either specify a list of columns you need or take them all.
 
 
-### Distance from a single point in another table
+#### Distance from a single point in another table
 
 Sometimes you are studying a particular place, so a whole table join is not desirable. In this case, you need all of the properties within 200m of Lord Byng school.
 
@@ -128,7 +128,7 @@ By now, you are familiar with all of the functions here, but there are still a f
 * Longitude and latitude are calculated to an exceedingly high number of decimal places, which is an unrealistic level of accuracy, [in this case more precise than anything could measure](https://gis.stackexchange.com/questions/8650/measuring-accuracy-of-latitude-and-longitude). Always remember the accuracy limits of your data set.
 
 
-### You don't have to use centroids
+#### You don't have to use centroids
 
 Up to this point, we have been using the centre point of a parcel. But you don't have to and whether or not you do so can make a large difference if you're examining a small enough area.
 

@@ -4,7 +4,7 @@ title: FAQ & Troubleshooting
 nav_order: 35 
 ---
 
-# Frequently asked questions & troubleshooting
+## Frequently asked questions & troubleshooting
 
 ### My query apparently runs without error, but the window displays no results
 

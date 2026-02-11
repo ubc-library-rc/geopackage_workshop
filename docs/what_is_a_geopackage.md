@@ -23,7 +23,7 @@ Unlike Microsoft Access, SQLite is not a stand-alone program. There are many int
 
 SQLite is currently on version 3, so you will see variants of names, including SQLite 3 and sqlite3.
 
-## GeoPackages
+### GeoPackages
 
 A [GeoPackage](https://en.wikipedia.org/wiki/GeoPackage)  (note the capital P) is a type of relational database which both holds geographic data and has the capability to perform spatially aware functions with it. It is similar to a Spatialite database, which has very similar capabilities. Both Spatialite and GeoPackages are built on the same platform, and to some extent they are the same. GeoPackages are standardized by the Open Geospatial Consortium, so the structure of a GeoPackage is very well defined.
 

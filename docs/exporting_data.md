@@ -4,7 +4,7 @@ title: Exporting data
 nav_order: 30
 ---
 
-# Exporting data
+## Exporting data
 
 Most of the time you will not be satisfied with performing a query and leaving it at that. If you're writing a paper, the readers will expect a table instead of whatever SQL query you used to generate it. Luckily, exporting data is arguably the easiest step in the whole process.
 
@@ -35,7 +35,7 @@ PtDistWithin(Centroid(CastAutomagic(prop_parcel_polygons.geom)),
 ORDER BY distance_m DESC;
 ```
 
-## Exporting to a spreadsheet
+### Exporting to a spreadsheet
 
 
 Spreadsheet is a very loose term here. DB Browser doesn't export to Excel directly, but it *does* export to a number of different formats which can be opened in any spreadsheet application, like comma/tab separated value files.
@@ -59,11 +59,11 @@ That is, remove the **geom** column from your query output.
 
 You can then open your data in any application that can handle those files, like Excel.
 
-## Exporting to GIS
+### Exporting to GIS
 
 Although you didn't use a dedicated system like ArcGIS or QGIS to analyse your data, maybe you wish to have the capability of doing so because you wish to visualize your exports.
 
-### The easy way
+#### The easy way
 
 Both ArcGIS and QGIS support Well-known Text(WKT). As we saw in the [slightly more advanced queries page](queries_continued.html), the key to exporting WKT is using the AsText function.So, this time instead of deleting the geometry, you can use a construction like this:
 
@@ -103,7 +103,7 @@ Each dedicated GIS application will have different methods of reading WKT. Howev
 
 You will need to set the delimiter (in this case a tab), the projection (BC Albers, or EPSG:3005) and select the geometry column and type (if it fails to do it automatically).
 
-### The hard way
+#### The hard way
 
 It is possible to export geospatial files directly, either as GeoJSON or an ArcGIS shapefile. If you're not familiar with these formats, you should be aware that despite being a singular noun, a [_shapefile_](https://en.wikipedia.org/wiki/Shapefile){:target="_blank"} consists of a (minimum) of three files. 
 
@@ -146,7 +146,7 @@ However, as GIS applications can read WKT, and all of the can open GeoPackages d
 
 Because GeoPackages *are* SQLite databases, you can do the same things that you can do with any database, such as create views, etc. This is can soemetimes be more useful than a straight export. What you need to do will ultimately depend on your use case.
 
-## Conclusion
+### Conclusion
 
 You have started from nothing except a basic knowledge of SQLite, but now you should be able :
 
