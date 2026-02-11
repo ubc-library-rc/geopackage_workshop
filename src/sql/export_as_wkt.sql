@@ -4,8 +4,8 @@ Select all properties within 200m a *particular* school
 and show the distance in metres
 */
 SELECT DISTINCT fid, 
-	AsText(CastAutomagic(prop_parcel_polygons.geom)), civic_number,
-	streetname, site_id,
+	AsText(CastAutomagic(prop_parcel_polygons.geom)) AS geom,
+	civic_number, streetname, site_id,
 	DistanceWithin(Centroid(CastAutomagic(prop_parcel_polygons.geom)), 
 		CastAutomagic(schools.geom), 200) AS within_200,
 	round(Distance(CastAutomagic(prop_parcel_polygons.geom), 
