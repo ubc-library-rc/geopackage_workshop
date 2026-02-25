@@ -11,6 +11,8 @@ nav_order: 50
 - [DB Browser for SQLite](https://sqlitebrowser.org/){:target="_blank"}
 - [Spatialite](https://www.gaia-gis.it/fossil/libspatialite/index){:target="_blank"}
     - [Spatialite functions list](https://www.gaia-gis.it/gaia-sins/spatialite-sql-5.1.0.html){:target="_blank"} (v5.1.0)
+- [Rasterlite2](https://www.gaia-gis.it/fossil/librasterlite2){:target="blank"}
+    - [Rasterlite2 functions](https://www.gaia-gis.it/fossil/librasterlite2/wiki?name=sql_reference_list){:target="blank"} (v2.1.1)
 - [sqlite3](https://docs.python.org/3/library/sqlite3.html){:target="_blank"} library for Python
 - [RSQlite](https://rsqlite.r-dbi.org/){:target="_blank"} library for R
 - [Understanding Map Projections](https://content.esri.com/support/documentation/ao_/697understanding_map_projections.pdf){:target="_blank"} (PDF)

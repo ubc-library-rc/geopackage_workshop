@@ -5,7 +5,7 @@ parent: Setting up DB Browser
 nav_order: 4 
 ---
 
-# Linux installation instructions
+## Linux installation instructions
 
 Anyone who has used Linux knows there are million ways to install anything. If you have a package manager installed (like `apt`) it's probably easiest to use that. The names of the libraries and software are probably not standardized. So if you're not sure of what to install, try something light `apt search libspatialite`. 
 

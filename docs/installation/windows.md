@@ -5,7 +5,7 @@ parent: Setting up DB Browser
 nav_order: -4 
 ---
 
-# Windows installation instructions
+## Windows installation instructions
 
 *1*{: .circle .circle-blue}
 Download and install [DB Browser for SQLite](https://sqlitebrowser.org/dl/)

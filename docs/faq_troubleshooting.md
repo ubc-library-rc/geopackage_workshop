@@ -77,3 +77,7 @@ Realistically, this also means that if you forget to set the mode, or it doesn't
 ### GpkgAmphibiousMode()?
 
 There are quite a few modes of operation for Spatialite. Amphibious mode is a rarely used, largely deprecated mode which (should) allow both Spatialite and GeoPackage modes to function. However, because it's largely deprecated and poorly documented, you may wish to use other methods instead, such as CastAutomagic() or AsGPB().
+
+### I installed Rasterlite2 but it doesn't work anymore!
+
+You may need to either reinstall Rasterlite2, or worse, but more likely, [compile and install your own version that works properly](installation/macos_rasterlite.html).

@@ -5,7 +5,7 @@ parent: Setting up DB Browser
 nav_order: 2 
 ---
 
-# MacOS installation instructions
+## MacOS installation instructions
 
 Your life will be greatly simplified if you use [homebrew](https://brew.sh). These instructions assume it is installed.
 
@@ -16,7 +16,7 @@ Install DB Browser for SQLite: `brew install --cask db-browser-for-sqlite`.
 Install **libspatialite**: `brew install libspatialite`.
 
 *2a*{: .circle .circle-blue}
-Optional raster support.  Install **rasterlite**: `brew install librasterlite2`. Raster data is not covered in this workshop but you do have the option.
+Optional raster support.  Install **rasterlite**: `brew install librasterlite2`. Raster data is not covered in this workshop but you do have the option. Note: as of 2026-02-24, you may need to [compile it yourself.](macos_rasterlite.html)
 
 *3*{: .circle .circle-blue}
 Add extensions. In DB Browser for SQLite, go to Preferences/Extensions. Under _Select extensions to load for every database_, select the puzzle piece with the plus symbol (the top icon), navigate to `mod_spatialite.8.dylib` and select it. Click **Save**.
